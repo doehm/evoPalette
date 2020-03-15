@@ -46,26 +46,18 @@ chromosome <- function(x, n = 15){
 #' Title
 #'
 #' @param parents
-#' @param crossover_point
 #'
 #' @return
 #' @export
 #'
 #' @examples
-crossover <- function(parents, crossover_point = sample(1:length(mum), 1)) {
-  mum <- parents$mum
-  dad <- parents$dad
-  n <- floor(length(mum)*runif(1))
-  # genes <- sample(1:length(mum), n)
-  genes <- 1:crossover_point
-  child1 <- mum
-  child2 <- dad
-  child1[genes] <- dad[genes]
-  child2[genes] <- mum[genes]
-  list(
-    child1 = child1,
-    child2 = child2
-  )
+crossover <- function(parents) {
+  n <- length(parents[[1]])
+  n_crossover <- sample(1:n, 1)
+  id <- sample(1:n, n_crossover)
+  child <- parents[[1]]
+  child[id] <- parents[[2]][id]
+  child
 }
 
 
@@ -163,9 +155,28 @@ get_pal_order <- function(pal){
   .rgb <- cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])))
   d <- dist(.rgb)
   begin <- which(pal == sort(pal)[1])
-  as.numeric(names(sort(as.matrix(d)[begin,])))
+  order <- as.numeric(names(sort(as.matrix(d)[begin,])))
+  pal[order]
 }
 
 
 
+
+#' Test plot
+#'
+#' Plots a classic histogram using MPG data to test the colour palette
+#'
+#' @param pal
+#'
+#' @return
+#' @export
+#'
+#' @examples
+plot_palette <- function(pal) {
+  mpg %>%
+    ggplot(aes(x = displ, fill = class)) +
+    geom_histogram() +
+    scale_fill_manual(values = colorRampPalette(pal)(7)) +
+    theme_minimal()
+}
 
