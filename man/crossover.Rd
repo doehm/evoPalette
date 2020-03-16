@@ -4,10 +4,10 @@
 \alias{crossover}
 \title{Title}
 \usage{
-crossover(parents, crossover_point = sample(1:length(mum), 1))
+crossover(parents)
 }
 \arguments{
-\item{crossover_point}{}
+\item{parents}{}
 }
 \description{
 Title

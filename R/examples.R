@@ -1,37 +1,39 @@
+
+
 # examples
-example <- function() {
+example1 <- function(n_cols, n_parents, n_children, nrow, ncol) {
 
-  rgb_grid <- expand_grid(r = 0:25, g = 0:25, b = 0:25)
+  parent_pals <- map(1:n_parents, ~{
+    rgb(r = runif(n_cols), g = runif(n_cols), b = runif(n_cols))
+  })
 
-  parents <- list(
-    mum = sample(1:nrow(rgb_grid), 5),
-    dad = sample(1:nrow(rgb_grid), 5)
-  )
+  parent_pals <- map(parent_pals, ~get_pal_order(.x))
 
-  parents_b <- map(parents, ~chromosome(.x))
-
-  mum <- show_palette(pal = make_palette(parents_b$mum))
-  dad <- show_palette(pal = make_palette(parents_b$dad))
-
+  show_palettes <- map(parent_pals, ~show_palette(.x))
+  print(wrap_plots(show_palettes))
 
   again <- "y"
+  children <- parent_pals
   while(again == "y") {
 
-    mum <- show_palette(pal = make_palette(parents_b$mum))
-    dad <- show_palette(pal = make_palette(parents_b$dad))
+    mum <- as.numeric(readline("choose mum "))
+    dad <- as.numeric(readline("choose dad "))
 
-    children <- crossover(parents_b)
+    children <- map(1:n_children, ~get_pal_order(crossover(children[c(mum, dad)])))
 
-    g1 <- show_palette(pal = make_palette(children$child1))
-    g2 <- show_palette(pal = make_palette(children$child2))
+    show_palettes <- map(children, ~show_palette(.x))
+    print(wrap_plots(show_palettes))
 
-    print((mum + dad) / (g1 + g2))
 
-    parents_b$mum <- children$child1
-    parents_b$dad <- children$child2
-
-    again <- readline("again?  ")
-
+    again <- NA
+    message("again? ")
+    while(!again %in% c("y", "n")) {
+      message("please choose y / n")
+      again <- readline("")
+    }
   }
+  pal <- as.numeric(readline("select palette: "))
+  print(show_palette(children[[pal]]) / plot_palette(children[[pal]]))
+  children[[pal]]
 }
 

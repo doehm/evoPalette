@@ -1,48 +1,5 @@
 
 
-
-#' Get hex code
-#'
-#' @param id
-#'
-#' @return
-#' @export
-#'
-#' @import purrr
-#'
-#' @examples
-get_hex <- function(id){
-  map_chr(id, ~{
-    rgb <- rgb_grid[.x,]*10/255
-    rgb(rgb[1], rgb[2], rgb[3])
-  })
-}
-
-
-
-
-
-#' Title
-#'
-#' @param x
-#' @param n
-#'
-#' @return
-#' @export
-#'
-#' @import binaryLogic
-#'
-#' @examples
-chromosome <- function(x, n = 15){
-  map(x, ~{
-    x_b <- as.binary(.x)
-    c(rep(0, 15-length(x_b)), x_b)
-  }) %>%
-    do.call(c, .)
-}
-
-
-
 #' Title
 #'
 #' @param parents
@@ -59,38 +16,6 @@ crossover <- function(parents) {
   child[id] <- parents[[2]][id]
   child
 }
-
-
-
-#' Title
-#'
-#' @param chromosome
-#' @param n
-#'
-#' @return
-#' @export
-#'
-#' @import dplyr
-#'
-#' @examples
-make_palette <- function(chromosome, n = 15) {
-  pal <- tibble(
-    id = floor((1:length(chromosome)-1)/n),
-    chromosome = chromosome
-  ) %>%
-    split(.$id) %>%
-    map_dbl(~{
-      y <- structure(.x$chromosome, class = c("binary", "logical"), signed = FALSE, littleEndian = FALSE)
-      as.integer(as.binary(y))
-    }) %>%
-    unname() %>%
-    get_hex
-
-  pal[get_pal_order(pal)]
-}
-
-
-
 
 
 
@@ -127,7 +52,7 @@ show_palette <- function(pal, n = NULL, labels = FALSE){
   g <- ggplot() +
     theme_void() +
     annotate("rect", xmin = df1$xmin, xmax = df1$xmax, ymin = df1$ymin, ymax = df1$ymax, fill = colorRampPalette(pal)(n[1])) +
-    annotate("rect", xmin = df2$xmin, xmax = df2$xmax, ymin = df2$ymin, ymax = df2$ymax, fill = colorRampPalette(pal[c(1, 3, 5)])(n[2]))
+    annotate("rect", xmin = df2$xmin, xmax = df2$xmax, ymin = df2$ymin, ymax = df2$ymax, fill = colorRampPalette(pal[seq(1, n[1], length = 3)])(n[2]))
 
   if(labels) g <- g + annotate("text", x = (df1$xmin + df1$xmax)/2, y = (df1$ymin + df1$ymax)/2, label = pal)
 
@@ -170,6 +95,8 @@ get_pal_order <- function(pal){
 #'
 #' @return
 #' @export
+#'
+#' @import ggplot2
 #'
 #' @examples
 plot_palette <- function(pal) {
