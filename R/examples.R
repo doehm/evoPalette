@@ -1,14 +1,9 @@
 
 
 # examples
-example1 <- function(n_cols, n_parents, n_children, nrow, ncol) {
+example1 <- function(n_cols, n_parents, n_children) {
 
-  parent_pals <- map(1:n_parents, ~{
-    rgb(r = runif(n_cols), g = runif(n_cols), b = runif(n_cols))
-  })
-
-  parent_pals <- map(parent_pals, ~get_pal_order(.x))
-
+  parent_pals <- random_palette(n_cols, n_parents)
   show_palettes <- map(parent_pals, ~show_palette(.x))
   print(wrap_plots(show_palettes))
 
@@ -19,8 +14,8 @@ example1 <- function(n_cols, n_parents, n_children, nrow, ncol) {
     mum <- as.numeric(readline("choose mum "))
     dad <- as.numeric(readline("choose dad "))
 
-    children <- map(1:n_children, ~get_pal_order(crossover(children[c(mum, dad)])))
-
+    children <- map(1:n_children, ~crossover(children[c(mum, dad)])) %>% mutation()
+    children <- map(children, ~get_pal_order(.x))
     show_palettes <- map(children, ~show_palette(.x))
     print(wrap_plots(show_palettes))
 

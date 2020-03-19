@@ -4,7 +4,7 @@
 \alias{show_palette}
 \title{Show palette}
 \usage{
-show_palette(pal, n = NULL, labels = FALSE)
+show_palette(pal, n = NULL, labels = FALSE, n_continuous = 3)
 }
 \arguments{
 \item{n}{Number of colours to show. Defaults to c(length(pal), 200)}

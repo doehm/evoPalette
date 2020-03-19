@@ -14,7 +14,72 @@ crossover <- function(parents) {
   id <- sample(1:n, n_crossover)
   child <- parents[[1]]
   child[id] <- parents[[2]][id]
+  child <- get_pal_order(child)
   child
+}
+
+
+
+
+#' Title
+#'
+#' @param n_cols
+#' @param n_parents
+#'
+#' @return
+#' @export
+#'
+#' @importFrom glue glue
+#' @import paletteer
+#'
+#' @examples
+random_palette <- function(n_cols, n_parents, from = "palettes") {
+
+  if(from == "random"){
+    return(
+      map(1:n_parents, ~{
+        rgb(r = runif(n_cols), g = runif(n_cols), b = runif(n_cols), runif(n_cols))
+        }) %>%
+        map(~get_pal_order(.x))
+    )
+  }
+
+  if(from == "palettes") {
+    return(
+      map(1:n_parents, ~{
+        pal <- palettes_d_names[sample(1:nrow(palettes_d_names), 1),]
+        pal <- paletteer_d(glue("{pal$package}::{pal$palette}"))
+        colorRampPalette(pal)(n_cols)
+      }) %>%
+        map(~get_pal_order(.x))
+    )
+  }
+
+}
+
+
+
+
+#' Title
+#'
+#' @param parents
+#'
+#' @return
+#' @export
+#'
+#' @examples
+mutation <- function(parents, mutation_rate = 0.05) {
+  map(parents, ~col2rgb(.x)/255) %>%
+    map(~matrix(rbeta(length(.x), .x*255/5 + 1, 255/5*(1 - .x) + 1), nrow = 3)) %>%
+    map(~rgb(r = .x[1,], g = .x[2,], b = .x[3,])) %>%
+    map(~{
+      df <- .x
+      mutation_id <- runif(length(.x)) < mutation_rate
+      random_rgb <- random_palette(length(.x), 1, from = "random")[[1]]
+      df[mutation_id] <- random_rgb[mutation_id]
+      df
+    }) %>%
+    map(~get_pal_order(.x))
 }
 
 
@@ -33,7 +98,7 @@ crossover <- function(parents) {
 #' @import ggplot2
 #'
 #' @examples
-show_palette <- function(pal, n = NULL, labels = FALSE){
+show_palette <- function(pal, n = NULL, labels = FALSE, n_continuous = 3){
 
   if(is.null(n)) n <- c(length(pal), 200)
 
@@ -52,7 +117,7 @@ show_palette <- function(pal, n = NULL, labels = FALSE){
   g <- ggplot() +
     theme_void() +
     annotate("rect", xmin = df1$xmin, xmax = df1$xmax, ymin = df1$ymin, ymax = df1$ymax, fill = colorRampPalette(pal)(n[1])) +
-    annotate("rect", xmin = df2$xmin, xmax = df2$xmax, ymin = df2$ymin, ymax = df2$ymax, fill = colorRampPalette(pal[seq(1, n[1], length = 3)])(n[2]))
+    annotate("rect", xmin = df2$xmin, xmax = df2$xmax, ymin = df2$ymin, ymax = df2$ymax, fill = colorRampPalette(pal[seq(1, n[1], length = n_continuous)])(n[2]))
 
   if(labels) g <- g + annotate("text", x = (df1$xmin + df1$xmax)/2, y = (df1$ymin + df1$ymax)/2, label = pal)
 
