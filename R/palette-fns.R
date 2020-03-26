@@ -1,5 +1,6 @@
 
 
+
 #' Title
 #'
 #' @param parents
@@ -47,8 +48,8 @@ random_palette <- function(n_cols, n_parents, from = "palettes") {
   if(from == "palettes") {
     return(
       map(1:n_parents, ~{
-        pal <- palettes_d_names[sample(1:nrow(palettes_d_names), 1),]
-        pal <- paletteer_d(glue("{pal$package}::{pal$palette}"))
+        pal <- paletteer::palettes_d_names[sample(1:nrow(palettes_d_names), 1),]
+        pal <- paletteer::paletteer_d(glue("{pal$package}::{pal$palette}"))
         colorRampPalette(pal)(n_cols)
       }) %>%
         map(~get_pal_order(.x))
@@ -68,9 +69,9 @@ random_palette <- function(n_cols, n_parents, from = "palettes") {
 #' @export
 #'
 #' @examples
-mutation <- function(parents, mutation_rate = 0.05) {
+mutation <- function(parents, mutation_rate = 0.05, random_par = 1) {
   map(parents, ~col2rgb(.x)/255) %>%
-    map(~matrix(rbeta(length(.x), .x*255/5 + 1, 255/5*(1 - .x) + 1), nrow = 3)) %>%
+    map(~matrix(rbeta(length(.x), .x*255/random_par + 1, 255/random_par*(1 - .x) + 1), nrow = 3)) %>%
     map(~rgb(r = .x[1,], g = .x[2,], b = .x[3,])) %>%
     map(~{
       df <- .x
@@ -128,6 +129,7 @@ show_palette <- function(pal, n = NULL, labels = FALSE, n_continuous = 3){
 
 
 
+
 #' Hue
 #'
 #' Gets hue from a colour palette
@@ -162,13 +164,74 @@ get_pal_order <- function(pal){
 #' @export
 #'
 #' @import ggplot2
+#' @import patchwork
 #'
 #' @examples
-plot_palette <- function(pal) {
-  mpg %>%
-    ggplot(aes(x = displ, fill = class)) +
-    geom_histogram() +
-    scale_fill_manual(values = colorRampPalette(pal)(7)) +
-    theme_minimal()
+plot_palette <- function(pal, aes = "fill") {
+  if(aes == "fill"){
+    mpg %>%
+      ggplot(aes(x = displ, fill = class)) +
+      geom_histogram() +
+      scale_fill_manual(values = colorRampPalette(pal)(7))
+      # theme_minimal()
+  }else{
+    mpg %>%
+      ggplot(aes(x = displ, y = hwy, colour = displ)) +
+      geom_point(size = 7) +
+      scale_colour_gradientn(colours = colorRampPalette(pal[round(seq(1, length(pal), length = 3))])(200))
+      # theme_minimal()
+  }
+
 }
 
+
+
+
+
+
+#' Title
+#'
+#' @param n_children
+#' @param mutation_rate
+#' @param selected_parents
+#'
+#' @return
+#' @export
+#'
+#' @examples
+evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation = 2) {
+  n <- length(selected_parents)
+  map(1:n_children, ~{
+    parents <- sample(1:n, 2, replace = TRUE)
+    crossover(selected_parents[parents])
+    }) %>%
+    mutation(mutation_rate = mutation_rate, random_par = variation) %>%
+    map(~get_pal_order(.x))
+}
+
+
+
+
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
+evo_palette <- function() {
+  shiny::runApp(system.file('./shiny/evoPaletteDash', package = 'evoPalette'))
+}
+
+
+
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get_palettes <-  function() {
+  pal <- get("saved_palette", envir = palette_box)
+  show_palette(pal)
+  pal
+}

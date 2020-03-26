@@ -27,8 +27,20 @@ example1 <- function(n_cols, n_parents, n_children) {
       again <- readline("")
     }
   }
+
   pal <- as.numeric(readline("select palette: "))
   print(show_palette(children[[pal]]) / plot_palette(children[[pal]]))
   children[[pal]]
+
 }
 
+
+
+# imgurl <- image_read("C:/Users/Dan/Pictures/evolution-of-man.jpg")
+# # png("C:/Users/Dan/Pictures/evolution-of-man.png")
+# # imgurl
+# # dev.off()
+# # imgurl <- image_read("C:/Users/Dan/Pictures/evolution-of-man.png")
+# sticker(imgurl, package="evoPalette", p_size=30, s_x=1, s_y=.75, s_width=0.6,
+#         p_family = "userfont", p_color = "black", h_fill = "grey50",
+#         filename="imgfile.png")

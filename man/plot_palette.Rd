@@ -4,7 +4,7 @@
 \alias{plot_palette}
 \title{Test plot}
 \usage{
-plot_palette(pal)
+plot_palette(pal, aes = "fill")
 }
 \arguments{
 \item{pal}{}
