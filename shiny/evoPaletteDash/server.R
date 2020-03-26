@@ -4,14 +4,14 @@ function(input, output) {
 
     # generate palettes either
     pals <- eventReactive(input$evolve_button, {
-        if(is.null(input$selected_parents_ui)) random <<- TRUE
-        if(random) {
-            random <<- FALSE
-            current_pal <<- random_palette(input$n_cols, input$n_palettes)
+        if(is.null(input$selected_parents_ui)) gallery$random <- TRUE
+        if(gallery$random) {
+            gallery$random <- FALSE
+            gallery$current_palette <- random_palette(input$n_cols, input$n_palettes)
         }else{
-            current_pal <<- evolve(current_pal[as.numeric(input$selected_parents_ui)], input$n_palettes, mutation_rate = 0.05, variation = input$variation)
+            gallery$current_palette <- evolve(gallery$current_palette[as.numeric(input$selected_parents_ui)], input$n_palettes, mutation_rate = 0.05, variation = input$variation)
         }
-        current_pal
+        gallery$current_palette
     })
 
     palettes <- reactive({
@@ -20,15 +20,11 @@ function(input, output) {
     })
 
     palette_examples <- reactive({
-        wrap_plots(
-            map(pals(), ~plot_palette(.x))
-        )
+        plot_palette(pals())
     })
 
     palette_examples_colour <- reactive({
-        wrap_plots(
-            map(pals(), ~plot_palette(.x, aes = "colour"))
-        )
+        plot_palette(pals(), aes = "colour")
     })
 
     observeEvent(input$save_palette, {
@@ -36,7 +32,8 @@ function(input, output) {
     })
 
     save_pal_name_input <- eventReactive(input$shinyalert, {
-        gallery$palette_box[[input$shinyalert]] <- current_pal[as.numeric(input$selected_parents_ui)][[1]]
+        print(input$shinyalert)
+        gallery$palette_box[[input$shinyalert]] <- gallery$current_palette[as.numeric(input$selected_parents_ui)][[1]]
         show_palette(gallery$palette_box[[input$shinyalert]])
     })
 

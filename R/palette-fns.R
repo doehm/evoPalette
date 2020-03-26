@@ -169,19 +169,18 @@ get_pal_order <- function(pal){
 #' @examples
 plot_palette <- function(pal, aes = "fill") {
   if(aes == "fill"){
-    mpg %>%
+    g <- mpg %>%
       ggplot(aes(x = displ, fill = class)) +
-      geom_histogram() +
-      scale_fill_manual(values = colorRampPalette(pal)(7))
-      # theme_minimal()
+      geom_histogram()
+    map(pal, ~g + scale_fill_manual(values = colorRampPalette(.x)(7))) %>%
+      wrap_plots()
   }else{
-    mpg %>%
+    g <- mpg %>%
       ggplot(aes(x = displ, y = hwy, colour = displ)) +
-      geom_point(size = 7) +
-      scale_colour_gradientn(colours = colorRampPalette(pal[round(seq(1, length(pal), length = 3))])(200))
-      # theme_minimal()
+      geom_point(size = 7)
+    map(pal, ~g + scale_colour_gradientn(colours = colorRampPalette(.x[round(seq(1, length(.x), length = 3))])(200))) %>%
+      wrap_plots()
   }
-
 }
 
 
@@ -226,12 +225,13 @@ evo_palette <- function() {
 
 #' Title
 #'
+#' @param clear Set to TRUE to clear the palette box. Default FALSE
+#'
 #' @return
 #' @export
 #'
 #' @examples
-get_palettes <-  function() {
-  pal <- get("saved_palette", envir = palette_box)
-  show_palette(pal)
-  pal
+open_palette_box <-  function(clear = FALSE) {
+  if(clear) gallery$palette_box <- NULL
+  gallery$palette_box
 }

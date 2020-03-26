@@ -1,23 +1,23 @@
-library(shinydashboard)
-library(paletteer)
-library(purrr)
-
 
 dashboardPage(skin = "green",
               dashboardHeader(title = "evoPalette"),
               dashboardSidebar(
                   sidebarMenu(
                       HTML(
-                          "<p>To begin select the number<br />
-                          of colours to generate for<br />
-                          each palette and the number<br />
-                          of palettes to generate.<br />
-                          Select the palettes you like the<br />
-                          most using the checkbox<br />
-                          and click evolve to spawn new<br />
-                          palettes.</p>
-                          <p>To begin again uncheck all<br />
-                          boxes and click evolve.</p>"
+                          "<p><br />
+                          To begin select the number of colours<br />
+                          for each palette and the number of <br />
+                          palettes to generate.<br />
+                          </p>
+                          <p>
+                          Select the palettes you like the most<br />
+                          using the checkbox. Click evolve to<br />
+                          spawn the next generation of <br />
+                          palettes.
+                          </p>
+                          <p>
+                          To begin again uncheck all boxes and <br />
+                          click evolve.<br /></p>"
                            ),
                       menuItem("Palettes", tabName = "dash", icon = icon("fill-drip")),
                       menuItem("Example: Fill aesthetic", tabName = "palette_examples_d", icon = icon("chevron-circle-right")),
@@ -29,12 +29,14 @@ dashboardPage(skin = "green",
                       uiOutput("selected_parents_ui"),
                       actionButton("evolve_button", "Evolve"),
                       HTML(
-                        "<p>The saved palette can be retrieved with  once the<br />
-                        app is closed</p>"
+                        "<p>
+                        The saved palettes can be retrieved<br />
+                        with open_palette_box()
+                        </p>"
                       ),
                       useShinyalert(),
                       actionButton("save_palette", "Save"),
-                      plotOutput("saved_pal", height = 100, width = 160)
+                      plotOutput("saved_pal", height = 100, width = '100%')
                   )
               ),
               dashboardBody(
