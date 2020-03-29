@@ -4,10 +4,10 @@
 \alias{mutation}
 \title{Title}
 \usage{
-mutation(parents, mutation_rate = 0.05, random_par = 1)
+mutation(parents, mutation_rate = 0.05, variation_parameter = 0.01)
 }
 \arguments{
-\item{parents}{}
+\item{variation_parameter}{}
 }
 \description{
 Title

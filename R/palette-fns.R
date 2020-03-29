@@ -185,6 +185,7 @@ get_pal_order <- function(pal){
 #'
 #' @import ggplot2
 #' @import patchwork
+#' @import dplyr
 #'
 #' @examples
 plot_palette <- function(pal, aes = "fill") {
@@ -204,7 +205,7 @@ plot_palette <- function(pal, aes = "fill") {
     g <- mpg %>%
       ggplot(aes(x = displ, y = hwy, colour = displ)) +
       geom_point(size = 7)
-    imap(pal, ~g + scale_colour_gradientn(colours = colorRampPalette(.x[round(seq(1, length(.x), length = 3))])(200)) +
+    imap(pal, ~g + scale_colour_gradientn(colours = colorRampPalette(.x[seq(1, length(.x), length = 3)])(200)) +
           labs(
             title = to_title_case(.y)
           ) +
@@ -284,6 +285,8 @@ open_palette_box <-  function(clear = FALSE) {
 #' @export
 #'
 #' @import snakecase
+#' @import readr
+#' @import dplyr
 #'
 #' @examples
 generate_palette_name <- function(n) {

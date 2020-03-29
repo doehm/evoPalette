@@ -4,7 +4,7 @@ dashboardPage(skin = "green",
               dashboardSidebar(
                   sidebarMenu(
                       HTML(
-                          "<p><br />
+                          "<p><br /1>
                           To begin select the number of colours<br />
                           for each palette and the number of <br />
                           palettes to generate. Click evolve.<br />
