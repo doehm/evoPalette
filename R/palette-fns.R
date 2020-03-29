@@ -34,11 +34,11 @@ crossover <- function(parents) {
 #' @import paletteer
 #'
 #' @examples
-random_palette <- function(n_cols, n_parents, from = "palettes") {
+random_palette <- function(n_cols, n_palettes, from = "palettes") {
 
   if(from == "random"){
     return(
-      map(1:n_parents, ~{
+      map(1:n_palettes, ~{
         rgb(r = runif(n_cols), g = runif(n_cols), b = runif(n_cols), runif(n_cols))
         }) %>%
         map(~get_pal_order(.x))
@@ -46,17 +46,19 @@ random_palette <- function(n_cols, n_parents, from = "palettes") {
   }
 
   if(from == "palettes") {
-    return(
-      map(1:n_parents, ~{
-        pal <- paletteer::palettes_d_names[sample(1:nrow(palettes_d_names), 1),]
-        pal <- paletteer::paletteer_d(glue("{pal$package}::{pal$palette}"))
+      palette_draws <- map(1:n_palettes, ~{
+        pal_names <- paletteer::palettes_d_names[sample(1:nrow(palettes_d_names), 1),]
+      })
+      names(palette_draws) <- map_chr(palette_draws, ~{.x$palette}) %>% to_title_case()
+      palette_draws <- map(palette_draws, ~{
+        pal <- paletteer::paletteer_d(glue("{.x$package}::{.x$palette}"))
         colorRampPalette(pal)(n_cols)
       }) %>%
-        map(~get_pal_order(.x))
-    )
+      map(~get_pal_order(.x))
+      return(palette_draws)
   }
-
 }
+
 
 
 
@@ -64,14 +66,17 @@ random_palette <- function(n_cols, n_parents, from = "palettes") {
 #' Title
 #'
 #' @param parents
+#' @param mutation_rate
+#' @param variation_parameter
 #'
 #' @return
 #' @export
 #'
 #' @examples
-mutation <- function(parents, mutation_rate = 0.05, random_par = 1) {
+mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) {
+  N <- 1
   map(parents, ~col2rgb(.x)/255) %>%
-    map(~matrix(rbeta(length(.x), .x*255/random_par + 1, 255/random_par*(1 - .x) + 1), nrow = 3)) %>%
+    map(~matrix(rbeta(length(.x), .x*N/variation_parameter + 1, N/variation_parameter*(1 - .x) + 1), nrow = 3)) %>%
     map(~rgb(r = .x[1,], g = .x[2,], b = .x[3,])) %>%
     map(~{
       df <- .x
@@ -86,20 +91,28 @@ mutation <- function(parents, mutation_rate = 0.05, random_par = 1) {
 
 
 
+
+
+
+
 #' Show palette
 #'
 #' Shows the palette
 #'
-#' @param p Palette object
 #' @param n Number of colours to show. Defaults to c(length(pal), 200)
+#' @param pal
+#' @param title
+#' @param labels
+#' @param n_continuous
 #'
 #' @return
 #' @export
 #'
 #' @import ggplot2
+#' @import snakecase
 #'
 #' @examples
-show_palette <- function(pal, n = NULL, labels = FALSE, n_continuous = 3){
+show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuous = 3){
 
   if(is.null(n)) n <- c(length(pal), 200)
 
@@ -121,6 +134,13 @@ show_palette <- function(pal, n = NULL, labels = FALSE, n_continuous = 3){
     annotate("rect", xmin = df2$xmin, xmax = df2$xmax, ymin = df2$ymin, ymax = df2$ymax, fill = colorRampPalette(pal[seq(1, n[1], length = n_continuous)])(n[2]))
 
   if(labels) g <- g + annotate("text", x = (df1$xmin + df1$xmax)/2, y = (df1$ymin + df1$ymax)/2, label = pal)
+  if(!is.null(title)) {
+    g <- g +
+      labs(title = to_title_case(title)) +
+      theme(
+        plot.title = element_text(hjust = 0.5, size = 18)
+      )
+  }
 
   return(g)
 }
@@ -172,13 +192,25 @@ plot_palette <- function(pal, aes = "fill") {
     g <- mpg %>%
       ggplot(aes(x = displ, fill = class)) +
       geom_histogram()
-    map(pal, ~g + scale_fill_manual(values = colorRampPalette(.x)(7))) %>%
+    imap(pal, ~g + scale_fill_manual(values = colorRampPalette(.x)(7)) +
+          labs(
+            title = to_title_case(.y)
+          ) +
+           theme(
+             plot.title = element_text(hjust = 0.5, size = 18)
+           )) %>%
       wrap_plots()
   }else{
     g <- mpg %>%
       ggplot(aes(x = displ, y = hwy, colour = displ)) +
       geom_point(size = 7)
-    map(pal, ~g + scale_colour_gradientn(colours = colorRampPalette(.x[round(seq(1, length(.x), length = 3))])(200))) %>%
+    imap(pal, ~g + scale_colour_gradientn(colours = colorRampPalette(.x[round(seq(1, length(.x), length = 3))])(200)) +
+          labs(
+            title = to_title_case(.y)
+          ) +
+           theme(
+             plot.title = element_text(hjust = 0.5, size = 18)
+           )) %>%
       wrap_plots()
   }
 }
@@ -200,12 +232,14 @@ plot_palette <- function(pal, aes = "fill") {
 #' @examples
 evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation = 2) {
   n <- length(selected_parents)
-  map(1:n_children, ~{
+  evolved <- map(1:n_children, ~{
     parents <- sample(1:n, 2, replace = TRUE)
     crossover(selected_parents[parents])
     }) %>%
-    mutation(mutation_rate = mutation_rate, random_par = variation) %>%
+    mutation(mutation_rate = mutation_rate, variation_parameter = variation) %>%
     map(~get_pal_order(.x))
+  names(evolved) <- generate_palette_name(n_children)
+  evolved
 }
 
 
@@ -217,8 +251,8 @@ evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation
 #' @export
 #'
 #' @examples
-evo_palette <- function() {
-  shiny::runApp(system.file('./shiny/evoPaletteDash', package = 'evoPalette'))
+launch_evo_palette <- function() {
+  shiny::runApp(system.file('evoPaletteDash', package = 'evoPalette'))
 }
 
 
@@ -232,6 +266,33 @@ evo_palette <- function() {
 #'
 #' @examples
 open_palette_box <-  function(clear = FALSE) {
-  if(clear) gallery$palette_box <- NULL
+  if(clear) {
+    gallery$palette_box <- NULL
+    message("palette box cleared")
+  }
   gallery$palette_box
+}
+
+
+
+
+#' Title
+#'
+#' @param n
+#'
+#' @return
+#' @export
+#'
+#' @import snakecase
+#'
+#' @examples
+generate_palette_name <- function(n) {
+  adj <- read_rds(list.files(system.file('data/', package = 'evoPalette'), full.names = TRUE)[2]) %>%
+    filter(type == "adjective") %>%
+    .$word %>%
+    sample(., n)
+  food <- read_rds(list.files(system.file('data/', package = 'evoPalette'), full.names = TRUE)[1]) %>%
+    .$food_word %>%
+    sample(., n)
+  to_title_case(paste(adj, food))
 }

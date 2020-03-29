@@ -3,9 +3,8 @@ library(shinydashboard)
 library(shinyalert)
 library(paletteer)
 library(purrr)
+library(patchwork)
 
-
-random <<- TRUE
 if(!exists("gallery")) {
   gallery <- new.env()
   gallery$palette_box <- list()

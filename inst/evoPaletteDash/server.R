@@ -1,21 +1,27 @@
 
 function(input, output) {
 
-
     # generate palettes either
     pals <- eventReactive(input$evolve_button, {
-        if(is.null(input$selected_parents_ui)) gallery$random <- TRUE
+        if(is.null(input$selected_parents_ui)) {
+            gallery$random <- TRUE
+        }
         if(gallery$random) {
             gallery$random <- FALSE
             gallery$current_palette <- random_palette(input$n_cols, input$n_palettes)
         }else{
-            gallery$current_palette <- evolve(gallery$current_palette[as.numeric(input$selected_parents_ui)], input$n_palettes, mutation_rate = 0.05, variation = input$variation)
+            gallery$current_palette <- evolve(gallery$current_palette[input$selected_parents_ui], input$n_palettes, mutation_rate = 0.05, variation = input$variation)
+        }
+        if(input$load_palette != "") {
+            p0 <- get(input$load_palette, envir = .GlobalEnv)
+            n <- length(p0)
+            gallery$current_palette <- c(p0, gallery$current_palette[1:(input$n_palettes-n)])
         }
         gallery$current_palette
     })
 
     palettes <- reactive({
-        show_palettes <- map(pals(), ~show_palette(.x))
+        show_palettes <- imap(pals(), ~show_palette(.x, title = .y))
         wrap_plots(show_palettes)
     })
 
@@ -28,13 +34,12 @@ function(input, output) {
     })
 
     observeEvent(input$save_palette, {
-        shinyalert("Palette name", "Select a name for your palette...", type = "input")
+        shinyalert("Palette name", "Select a name for your palette...", type = "input", inputValue = input$selected_parents_ui[1])
     })
 
     save_pal_name_input <- eventReactive(input$shinyalert, {
-        print(input$shinyalert)
-        gallery$palette_box[[input$shinyalert]] <- gallery$current_palette[as.numeric(input$selected_parents_ui)][[1]]
-        show_palette(gallery$palette_box[[input$shinyalert]])
+        gallery$palette_box[[input$shinyalert]] <- gallery$current_palette[input$selected_parents_ui][[1]]
+        show_palette(gallery$palette_box[[input$shinyalert]], title = input$shinyalert)
     })
 
     # render palettes
@@ -57,7 +62,7 @@ function(input, output) {
 
     # render checkbox ui
     output$selected_parents_ui <- renderUI({
-        checkboxGroupInput("selected_parents_ui", "Select parents", 1:input$n_palettes, inline = FALSE)
+        checkboxGroupInput("selected_parents_ui", "Select parents", names(pals()), inline = FALSE)
     })
 
     output$saved_pal <- renderPlot({
