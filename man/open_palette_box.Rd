@@ -2,7 +2,7 @@
 % Please edit documentation in R/palette-fns.R
 \name{open_palette_box}
 \alias{open_palette_box}
-\title{Title}
+\title{Palette box}
 \usage{
 open_palette_box(clear = FALSE)
 }
@@ -10,5 +10,5 @@ open_palette_box(clear = FALSE)
 \item{clear}{Set to TRUE to clear the palette box. Default FALSE}
 }
 \description{
-Title
+Opens the palette box containing saved palettes from the evoPalette Shiny app
 }

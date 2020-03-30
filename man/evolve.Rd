@@ -2,14 +2,24 @@
 % Please edit documentation in R/palette-fns.R
 \name{evolve}
 \alias{evolve}
-\title{Title}
+\title{Evolve function}
 \usage{
 evolve(selected_parents, n_children, mutation_rate = 0.05,
-  variation = 2)
+  variation = 0.01)
 }
 \arguments{
-\item{selected_parents}{}
+\item{selected_parents}{List of selected parents.}
+
+\item{n_children}{Number of children to spawn}
+
+\item{mutation_rate}{Mutation rate. Numeric (0-1)}
+
+\item{variation}{}
 }
 \description{
-Title
+Takes a set of parents and spawns a given number of children.
+}
+\details{
+It is suitable to evolve only 1 selected parent. In this case crossover has not effect however random mutations can
+still occur and the variation parameter will generate slight variations of the parent. Useful for tweaking a chosen palette.
 }

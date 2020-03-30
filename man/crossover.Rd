@@ -2,13 +2,24 @@
 % Please edit documentation in R/palette-fns.R
 \name{crossover}
 \alias{crossover}
-\title{Title}
+\title{Crossover}
 \usage{
 crossover(parents)
 }
 \arguments{
-\item{parents}{}
+\item{parents}{List of two palettes of the same length.}
 }
 \description{
-Title
+Implements the crossover step in the evolutionary algorithm.
+}
+\details{
+A random number of genes are selected. The child gets the selected genes from one parent and the remaining from the other
+parent. The output is a new palette of the same length as the parents.
+}
+\examples{
+pals <- random_palette(5, 2)
+new_pals <- map(1:2, ~crossover(pals))
+parents <- c(pals, new_pals)
+names(parents) <- c("parent1", "parent2", "child1", "child2")
+imap(parents, ~show_palette(.x, .y)) \%>\% wrap_plots()
 }

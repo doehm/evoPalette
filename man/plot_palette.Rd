@@ -7,8 +7,12 @@
 plot_palette(pal, aes = "fill")
 }
 \arguments{
-\item{pal}{}
+\item{pal}{The palette. Character.}
 }
 \description{
-Plots a classic histogram using MPG data to test the colour palette
+Plots a classic histogram using MPG data to test the colour palette and a continuous colour aesthetic example
+}
+\examples{
+random_palette(5, 1)[[1]] \%>\%
+    plot_palette()
 }

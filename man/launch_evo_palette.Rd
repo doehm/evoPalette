@@ -2,10 +2,10 @@
 % Please edit documentation in R/palette-fns.R
 \name{launch_evo_palette}
 \alias{launch_evo_palette}
-\title{Title}
+\title{evoPalette app}
 \usage{
 launch_evo_palette()
 }
 \description{
-Title
+Launches the Shiny application for selecting and evolving colour palettes.
 }

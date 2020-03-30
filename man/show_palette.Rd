@@ -8,10 +8,21 @@ show_palette(pal, title = NULL, n = NULL, labels = FALSE,
   n_continuous = 3)
 }
 \arguments{
+\item{pal}{Palette. Character vector.}
+
+\item{title}{To add a title to the plot. Default NULL.}
+
 \item{n}{Number of colours to show. Defaults to c(length(pal), 200)}
 
-\item{n_continuous}{}
+\item{labels}{Adds number labels to the colour palette.}
+
+\item{n_continuous}{Number of colours from the palette the continuous gradient uses. Default 3.}
 }
 \description{
-Shows the palette
+plots the discrete and continuous colour palettes
+}
+\examples{
+random_palette(5, 2) \%>\%
+    map(~show_palette(.x)) \%>\%
+    wrap_plots()
 }

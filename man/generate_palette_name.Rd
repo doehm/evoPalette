@@ -2,13 +2,16 @@
 % Please edit documentation in R/palette-fns.R
 \name{generate_palette_name}
 \alias{generate_palette_name}
-\title{Title}
+\title{Generate palette name}
 \usage{
 generate_palette_name(n)
 }
 \arguments{
-\item{n}{}
+\item{n}{Number of names to generate.}
 }
 \description{
-Title
+Generates a palette name for evolved palettes. Names are generated from a random combination of adjectives and food related words.
+}
+\examples{
+generate_palette_name(5)
 }

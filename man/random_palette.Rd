@@ -2,13 +2,25 @@
 % Please edit documentation in R/palette-fns.R
 \name{random_palette}
 \alias{random_palette}
-\title{Title}
+\title{Random palette}
 \usage{
-random_palette(n_cols, n_palettes, from = "palettes")
+random_palette(n_cols, n_palettes, from = "paletteer")
 }
 \arguments{
-\item{n_parents}{}
+\item{n_cols}{Number of colours in the palette. Numeric.}
+
+\item{n_palettes}{Number of palettes to generate. Numeric.}
+
+\item{from}{Where to select or generate the palette from. See details.}
 }
 \description{
-Title
+Selects a random palette either from an exisiting set of palettes or completely random.
+}
+\details{
+Palettes can be selected from \code{paletteer} or \code{random} for a completely random palette and if you're
+feeling very lucky.
+}
+\examples{
+pals <- random_palette(5, 4)
+wrap_plots(map(pals, ~show_palettes(.x)))
 }

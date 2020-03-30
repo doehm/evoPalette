@@ -2,13 +2,32 @@
 % Please edit documentation in R/palette-fns.R
 \name{mutation}
 \alias{mutation}
-\title{Title}
+\title{Mutation}
 \usage{
 mutation(parents, mutation_rate = 0.05, variation_parameter = 0.01)
 }
 \arguments{
-\item{variation_parameter}{}
+\item{parents}{List of parents to apply the mutation step.}
+
+\item{mutation_rate}{Mutation rate. Numeric value between 0-1 representing the probability of mutation of a single gene.}
+
+\item{variation_parameter}{Random variation applied to every gene. Numeric value between 0-1.}
 }
 \description{
-Title
+Applies the mutation step in the evolutionary algorithm
+}
+\details{
+\code{variation_parameter} is a numeric value between 0-1 which is essentially the standard deviation of a beta
+distribution. A colour is converted to RGB and each value is randomly drawn from a beta distribution with mean the existing
+red, green or blue value on the 0-1 scale and approximate standard deviation of \code{variation_parameter}. In short smaller
+values are less variable and larger values more variable.
+}
+\examples{
+pal <- random_palette(5, 2)
+map(pal, ~show_palette(.x)) \%>\%
+   wrap_plots()
+pal \%>\%
+   mutation() \%>\%
+   map(~show_palette(.x)) \%>\%
+   wrap_plots()
 }
