@@ -47,6 +47,7 @@ crossover <- function(parents) {
 #'
 #' @importFrom glue glue
 #' @import paletteer
+#' @import purrr
 #'
 #' @examples
 #' pals <- random_palette(5, 4)
@@ -139,6 +140,8 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #' @param labels Adds number labels to the colour palette.
 #' @param n_continuous Number of colours from the palette the continuous gradient uses. Default 3.
 #'
+#' @details By default the continuous scale is set by taking 3 equally spaced colours along the colour palette.
+#'
 #' @return
 #' @export
 #'
@@ -187,11 +190,11 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 
 
 
-#' Hue
+#' Palette colour order
 #'
-#' Gets hue from a colour palette
+#' Sorts colour palette by hue.
 #'
-#' @param pal The hex code for a colour
+#' @param pal Palette. CHaracter vector.
 #'
 #' @return
 #' @export
@@ -298,6 +301,9 @@ evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation
 #' @return
 #' @export
 #'
+#' @import shinyalert
+#' @import shinydashboard
+#'
 #' @examples
 launch_evo_palette <- function() {
   shiny::runApp(system.file('evoPaletteDash', package = 'evoPalette'))
@@ -311,11 +317,15 @@ launch_evo_palette <- function() {
 #'
 #' @param clear Set to TRUE to clear the palette box. Default FALSE
 #'
+#' @details Any palettes saved while using the shiny app are saved here. Opening the box displays a list of the saved palettes. More
+#' Palettes will be saved here everytime you use the app during a single session. Remember to save the palette box before closing the
+#' session.
+#'
 #' @return
 #' @export
 #'
 #' @examples
-open_palette_box <-  function(clear = FALSE) {
+open_palette_box <-  function(clear = FALSE, save = NULL) {
   if(clear) {
     gallery$palette_box <- NULL
     message("palette box cleared")

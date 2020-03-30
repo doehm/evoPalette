@@ -2,13 +2,13 @@
 % Please edit documentation in R/palette-fns.R
 \name{get_pal_order}
 \alias{get_pal_order}
-\title{Hue}
+\title{Palette colour order}
 \usage{
 get_pal_order(pal)
 }
 \arguments{
-\item{pal}{The hex code for a colour}
+\item{pal}{Palette. CHaracter vector.}
 }
 \description{
-Gets hue from a colour palette
+Sorts colour palette by hue.
 }
