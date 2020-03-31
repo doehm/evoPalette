@@ -91,8 +91,8 @@ random_palette <- function(n_cols, n_palettes, from = "paletteer") {
 #' @param mutation_rate Mutation rate. Numeric value between 0-1 representing the probability of mutation of a single gene.
 #' @param variation_parameter Random variation applied to every gene. Numeric value between 0-1.
 #'
-#' @details A colour is converted to RGB and each value is randomly drawn from a beta distribution with mean of the existing
-#' red, green or blue values on the 0-1 scale and approximate standard deviation of \code{variation_parameter}. In short smaller
+#' @details A colour is converted to RGB and each value is randomly drawn from a beta distribution
+#' red, green or blue values on the 0-1 scale as the mean and approximate standard deviation of \code{variation_parameter}. In short smaller
 #' values are less variable and larger values more variable.
 #'
 #' The \code{mutation_rate} is the probability any given colour will be replaced with a completely random one.
@@ -381,9 +381,9 @@ open_palette_box <-  function(clear = FALSE) {
 #' @examples
 #' \dontrun{generate_palette_name(5)}
 generate_palette_name <- function(n) {
-  adj <- read_rds(list.files(system.file('inst/extdata', package = 'evoPalette'), full.names = TRUE)[2])
+  adj <- read_rds(list.files(system.file('extdata', package = 'evoPalette'), full.names = TRUE)[2])
   adj <- sample(adj$word[adj$type == "adjective"], n)
-  food <- read_rds(list.files(system.file('inst/extdata', package = 'evoPalette'), full.names = TRUE)[1])
+  food <- read_rds(list.files(system.file('extdata', package = 'evoPalette'), full.names = TRUE)[1])
   food <- sample(food$food_word, n)
   to_title_case(paste(adj, food))
 }

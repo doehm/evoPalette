@@ -1,5 +1,5 @@
 
-dashboardPage(skin = "green",
+dashboardPage(skin = "yellow",
               dashboardHeader(title = "evoPalette"),
               dashboardSidebar(
                   sidebarMenu(
