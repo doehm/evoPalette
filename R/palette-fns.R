@@ -10,6 +10,8 @@
 #' @details A random number of genes are selected. The child gets the selected genes from one parent and the remaining from the other
 #' parent. The output is a new palette of the same length as the parents.
 #'
+#' @importFrom stats runif
+#'
 #' @return
 #' @export
 #'
@@ -51,7 +53,7 @@ crossover <- function(parents) {
 #'
 #' @examples
 #' pals <- random_palette(5, 4)
-#' wrap_plots(map(pals, ~show_palettes(.x)))
+#' map(pals, ~show_palette(.x)) %>% wrap_plots
 random_palette <- function(n_cols, n_palettes, from = "paletteer") {
 
   if(from == "random"){
@@ -65,7 +67,7 @@ random_palette <- function(n_cols, n_palettes, from = "paletteer") {
 
   if(from == "paletteer") {
       palette_draws <- map(1:n_palettes, ~{
-        pal_names <- paletteer::palettes_d_names[sample(1:nrow(palettes_d_names), 1),]
+        pal_names <- paletteer::palettes_d_names[sample(1:nrow(paletteer::palettes_d_names), 1),]
       })
       names(palette_draws) <- map_chr(palette_draws, ~{.x$palette}) %>% to_title_case()
       palette_draws <- map(palette_draws, ~{
@@ -89,22 +91,22 @@ random_palette <- function(n_cols, n_palettes, from = "paletteer") {
 #' @param mutation_rate Mutation rate. Numeric value between 0-1 representing the probability of mutation of a single gene.
 #' @param variation_parameter Random variation applied to every gene. Numeric value between 0-1.
 #'
-#' @details \code{variation_parameter} is a numeric value between 0-1 which is essentially the standard deviation of a beta
-#' distribution. A colour is converted to RGB and each value is randomly drawn from a beta distribution with mean the existing
-#' red, green or blue value on the 0-1 scale and approximate standard deviation of \code{variation_parameter}. In short smaller
+#' @details A colour is converted to RGB and each value is randomly drawn from a beta distribution with mean of the existing
+#' red, green or blue values on the 0-1 scale and approximate standard deviation of \code{variation_parameter}. In short smaller
 #' values are less variable and larger values more variable.
+#'
+#' The \code{mutation_rate} is the probability any given colour will be replaced with a completely random one.
 #'
 #' @return
 #' @export
 #'
 #' @examples
 #' pal <- random_palette(5, 2)
-#' map(pal, ~show_palette(.x)) %>%
-#'    wrap_plots()
-#' pal %>%
+#' original <- map(pal, ~show_palette(.x, "original"))
+#' mutated <- pal %>%
 #'    mutation() %>%
-#'    map(~show_palette(.x)) %>%
-#'    wrap_plots()
+#'    map(~show_palette(.x, "mutated"))
+#' c(original, mutated) %>% wrap_plots
 mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) {
   if(is.character(parents)) {
     parents <- list(parents)
@@ -140,13 +142,15 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #' @param labels Adds number labels to the colour palette.
 #' @param n_continuous Number of colours from the palette the continuous gradient uses. Default 3.
 #'
-#' @details By default the continuous scale is set by taking 3 equally spaced colours along the colour palette.
+#' @details By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can to set to more
+#' or less if desired.
 #'
 #' @return
 #' @export
 #'
 #' @import ggplot2
 #' @import snakecase
+#' @importFrom grDevices colorRampPalette
 #'
 #' @examples
 #' random_palette(5, 2) %>%
@@ -194,7 +198,7 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #'
 #' Sorts colour palette by hue.
 #'
-#' @param pal Palette. CHaracter vector.
+#' @param pal Palette. Character vector.
 #'
 #' @return
 #' @export
@@ -202,6 +206,13 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #' @importFrom grDevices col2rgb rgb2hsv
 #'
 #' @examples
+#' pal <- c("#564862", "#EEFBFD", "#594543", "#8E4B3E", "#BF6856")
+#' list(
+#'     unsorted = pal,
+#'     sorted = get_pal_order(pal)
+#' ) %>%
+#' imap(~show_palette(.x, .y)) %>%
+#' wrap_plots()
 get_pal_order <- function(pal){
   .rgb <- t(col2rgb(pal))
   .rgb <- cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])))
@@ -216,9 +227,10 @@ get_pal_order <- function(pal){
 
 #' Test plot
 #'
-#' Plots a classic histogram using MPG data to test the colour palette and a continuous colour aesthetic example
+#' Plots MPG data displaying examples of the fill and colour aesthetics.
 #'
-#' @param pal The palette. Character.
+#' @param aesthetic 'fill' or 'colour' aesthetic
+#' @param pal Palette list or character vector
 #'
 #' @return
 #' @export
@@ -226,15 +238,17 @@ get_pal_order <- function(pal){
 #' @import ggplot2
 #' @import patchwork
 #' @import dplyr
+#' @importFrom stats dist
 #'
 #' @examples
-#' random_palette(5, 1)[[1]] %>%
+#' \dontrun{
+#' random_palette(5, 1) %>%
 #'     plot_palette()
-plot_palette <- function(pal, aes = "fill") {
-  if(aes == "fill"){
-    g <- mpg %>%
-      ggplot(aes(x = displ, fill = class)) +
-      geom_histogram()
+#' }
+plot_palette <- function(pal, aesthetic = "fill") {
+  if(is.character(pal)) pal <- list(pal)
+  if(aesthetic == "fill"){
+    g <- ggplot(ggplot2::mpg, aes(x = ggplot2::mpg$displ, fill = class)) + geom_histogram()
     imap(pal, ~g + scale_fill_manual(values = colorRampPalette(.x)(7)) +
           labs(
             title = to_title_case(.y)
@@ -244,9 +258,7 @@ plot_palette <- function(pal, aes = "fill") {
            )) %>%
       wrap_plots()
   }else{
-    g <- mpg %>%
-      ggplot(aes(x = displ, y = hwy, colour = displ)) +
-      geom_point(size = 7)
+    g <- ggplot(ggplot2::mpg, aes(x = ggplot2::mpg$displ, y = ggplot2::mpg$hwy, colour = ggplot2::mpg$displ)) + geom_point(size = 7)
     imap(pal, ~g + scale_colour_gradientn(colours = colorRampPalette(.x[seq(1, length(.x), length = 3)])(200)) +
           labs(
             title = to_title_case(.y)
@@ -267,13 +279,15 @@ plot_palette <- function(pal, aes = "fill") {
 #'
 #' Takes a set of parents and spawns a given number of children.
 #'
-#' @param n_children Number of children to spawn
-#' @param mutation_rate Mutation rate. Numeric (0-1)
+#' @param n_children Number of children to spawn.
+#' @param mutation_rate Mutation rate. Numeric (0-1).
 #' @param selected_parents List of selected parents.
-#' @param variation
+#' @param variation Variation parameter. Controls the extent a single colour varies during mutation.
 #'
-#' @details It is suitable to evolve only 1 selected parent. In this case crossover has not effect however random mutations can
+#' @details It is possible to evolve only 1 selected parent. In this case crossover has no effect however random mutations can
 #' still occur and the variation parameter will generate slight variations of the parent. Useful for tweaking a chosen palette.
+#'
+#' The \code{variation} parameter varies a single colour by adjusting the standard error of a beta distribution.
 #'
 #' @return
 #' @export
@@ -301,7 +315,22 @@ evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation
 #' @return
 #' @export
 #'
-#' @import shinyalert
+#' @details To begin select the number of colours for each palette and the number of palettes to generate. Click evolve.
+#'
+#' Select the palettes you like the most using the checkbox. Click evolve to spawn the next generation of palettes.
+#'
+#' To begin again uncheck all boxes and click evolve.
+#'
+#' To start with existing palettes enter the object name into the load palettes text input. The object should be a list of
+#' palettes, ideally with names.
+#'
+#' Use 'parameters' to adjust the extent of mutations and variations in the algorthm.
+#'
+#' Save a palette by selecting the checkbox of the desired palette and click save. You can save multiple palettes to the palette
+#' box buy hitting 'save' for each palette individually. Upon closing the app, palettes can be retrieved by \code{open_palette_box()}.
+#'
+#' @import shiny
+#' @importFrom shinyalert useShinyalert shinyalert
 #' @import shinydashboard
 #'
 #' @examples
@@ -325,7 +354,7 @@ launch_evo_palette <- function() {
 #' @export
 #'
 #' @examples
-open_palette_box <-  function(clear = FALSE, save = NULL) {
+open_palette_box <-  function(clear = FALSE) {
   if(clear) {
     gallery$palette_box <- NULL
     message("palette box cleared")
@@ -350,14 +379,11 @@ open_palette_box <-  function(clear = FALSE, save = NULL) {
 #' @import dplyr
 #'
 #' @examples
-#' generate_palette_name(5)
+#' \dontrun{generate_palette_name(5)}
 generate_palette_name <- function(n) {
-  adj <- read_rds(list.files(system.file('data/', package = 'evoPalette'), full.names = TRUE)[2]) %>%
-    filter(type == "adjective") %>%
-    .$word %>%
-    sample(., n)
-  food <- read_rds(list.files(system.file('data/', package = 'evoPalette'), full.names = TRUE)[1]) %>%
-    .$food_word %>%
-    sample(., n)
+  adj <- read_rds(list.files(system.file('inst/extdata', package = 'evoPalette'), full.names = TRUE)[2])
+  adj <- sample(adj$word[adj$type == "adjective"], n)
+  food <- read_rds(list.files(system.file('inst/extdata', package = 'evoPalette'), full.names = TRUE)[1])
+  food <- sample(food$food_word, n)
   to_title_case(paste(adj, food))
 }

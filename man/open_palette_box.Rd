@@ -4,7 +4,7 @@
 \alias{open_palette_box}
 \title{Palette box}
 \usage{
-open_palette_box(clear = FALSE, save = NULL)
+open_palette_box(clear = FALSE)
 }
 \arguments{
 \item{clear}{Set to TRUE to clear the palette box. Default FALSE}

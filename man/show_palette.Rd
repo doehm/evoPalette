@@ -22,7 +22,8 @@ show_palette(pal, title = NULL, n = NULL, labels = FALSE,
 plots the discrete and continuous colour palettes
 }
 \details{
-By default the continuous scale is set by taking 3 equally spaced colours along the colour palette.
+By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can to set to more
+or less if desired.
 }
 \examples{
 random_palette(5, 2) \%>\%

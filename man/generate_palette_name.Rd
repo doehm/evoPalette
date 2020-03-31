@@ -13,5 +13,5 @@ generate_palette_name(n)
 Generates a palette name for evolved palettes. Names are generated from a random combination of adjectives and food related words.
 }
 \examples{
-generate_palette_name(5)
+\dontrun{generate_palette_name(5)}
 }

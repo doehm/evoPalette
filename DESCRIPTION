@@ -7,6 +7,22 @@ Maintainer: Daniel Oehm <danieloehm@gmail.com>
 Description: Taking the next step in choosing the right colour palette. evoPalette uses a genetic algorithm
   allowing users to generate their own colour palettes, either by evolving existing palettes or completely
   random ones. Save each new palette you like to a palette box.
+Depends: 
+  R (>= 3.5.0),
+  purrr,
+  ggplot2,
+  patchwork
+Imports:
+  dplyr,
+  glue,
+  grDevices,
+  paletteer,
+  readr,
+  shiny,
+  shinyalert,
+  shinydashboard,
+  snakecase,
+  stats
 License: CC0
 Encoding: UTF-8
 LazyData: true

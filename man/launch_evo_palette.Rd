@@ -9,3 +9,18 @@ launch_evo_palette()
 \description{
 Launches the Shiny application for selecting and evolving colour palettes.
 }
+\details{
+To begin select the number of colours for each palette and the number of palettes to generate. Click evolve.
+
+Select the palettes you like the most using the checkbox. Click evolve to spawn the next generation of palettes.
+
+To begin again uncheck all boxes and click evolve.
+
+To start with existing palettes enter the object name into the load palettes text input. The object should be a list of
+palettes, ideally with names.
+
+Use 'parameters' to adjust the extent of mutations and variations in the algorthm.
+
+Save a palette by selecting the checkbox of the desired palette and click save. You can save multiple palettes to the palette
+box buy hitting 'save' for each palette individually. Upon closing the app, palettes can be retrieved by \code{open_palette_box()}.
+}

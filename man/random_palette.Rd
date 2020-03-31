@@ -22,5 +22,5 @@ feeling very lucky.
 }
 \examples{
 pals <- random_palette(5, 4)
-wrap_plots(map(pals, ~show_palettes(.x)))
+map(pals, ~show_palette(.x)) \%>\% wrap_plots
 }

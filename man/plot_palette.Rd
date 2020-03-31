@@ -4,15 +4,19 @@
 \alias{plot_palette}
 \title{Test plot}
 \usage{
-plot_palette(pal, aes = "fill")
+plot_palette(pal, aesthetic = "fill")
 }
 \arguments{
-\item{pal}{The palette. Character.}
+\item{pal}{Palette list or character vector}
+
+\item{aesthetic}{'fill' or 'colour' aesthetic}
 }
 \description{
-Plots a classic histogram using MPG data to test the colour palette and a continuous colour aesthetic example
+Plots MPG data displaying examples of the fill and colour aesthetics.
 }
 \examples{
-random_palette(5, 1)[[1]] \%>\%
+\dontrun{
+random_palette(5, 1) \%>\%
     plot_palette()
+}
 }
