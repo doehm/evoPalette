@@ -43,20 +43,23 @@ dashboardPage(skin = "yellow",
                   )
               ),
               dashboardBody(
+                tags$style(type = "text/css", "#palette_plots {height: calc(100vh - 80px) !important;}"),
+                tags$style(type = "text/css", "#palette_examples {height: calc(100vh - 80px) !important;}"),
+                tags$style(type = "text/css", "#palette_examples_colour {height: calc(100vh - 80px) !important;}"),
                   tabItems(
                       tabItem(tabName = "dash",
                               fluidRow(
-                                  plotOutput("palette_plots", height = 1180)
+                                  plotOutput("palette_plots")
                               )
                       ),
                       tabItem(tabName = "palette_examples_d",
                               fluidRow(
-                                  plotOutput("palette_examples", height = 1180)
+                                  plotOutput("palette_examples")
                               )
                       ),
                       tabItem(tabName = "palette_examples_c",
                               fluidRow(
-                                plotOutput("palette_examples_colour", height = 1180)
+                                plotOutput("palette_examples_colour")
                               )
                       )
                   )
