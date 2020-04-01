@@ -17,8 +17,8 @@ mutation(parents, mutation_rate = 0.05, variation_parameter = 0.01)
 Applies the mutation step in the evolutionary algorithm
 }
 \details{
-A colour is converted to RGB and each value is randomly drawn from a beta distribution with mean of the existing
-red, green or blue values on the 0-1 scale and approximate standard deviation of \code{variation_parameter}. In short smaller
+A colour is converted to RGB and each value is randomly drawn from a beta distribution
+red, green or blue values on the 0-1 scale as the mean and approximate standard deviation of \code{variation_parameter}. In short smaller
 values are less variable and larger values more variable.
 
 The \code{mutation_rate} is the probability any given colour will be replaced with a completely random one.

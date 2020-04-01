@@ -23,11 +23,11 @@ dashboardPage(skin = "yellow",
                       menuItem("Example: Fill aesthetic", tabName = "palette_examples_d", icon = icon("chevron-circle-right")),
                       menuItem("Example: Colour aesthetic", tabName = "palette_examples_c", icon = icon("chevron-circle-right")),
                       menuItem("Parameters", tabName = "config",
-                               textInput("load_palette", "Load palettes (name of list)"),
                                numericInput("n_cols", "Number of colours", value = 5, min = 3, max = 20),
                                numericInput("n_palettes", "Number of Palettes", value = 6, min = 2, max = 12),
                                numericInput("mutation_rate", "Mutation rate (0 - 1)", 0.05),
-                               numericInput("variation", "Variation (0 - 1)", 0.01)
+                               numericInput("variation", "Variation (0 - 1)", 0.01),
+                               textInput("load_palette", "Load palettes (name of list)")
                                ),
                       uiOutput("selected_parents_ui"),
                       actionButton("evolve_button", "Evolve"),
