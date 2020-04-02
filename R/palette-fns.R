@@ -16,11 +16,14 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' pals <- random_palette(5, 2)
 #' new_pals <- map(1:2, ~crossover(pals))
 #' parents <- c(pals, new_pals)
 #' names(parents) <- c("parent1", "parent2", "child1", "child2")
-#' imap(parents, ~show_palette(.x, .y)) %>% wrap_plots()
+#' imap(parents, ~show_palette(.x, .y)) %>%
+#'     wrap_plots()
+#'}
 crossover <- function(parents) {
   n <- length(parents[[1]])
   id <- which(round(runif(n)) == 0)
@@ -47,13 +50,17 @@ crossover <- function(parents) {
 #' @return
 #' @export
 #'
-#' @importFrom glue glue
 #' @import paletteer
-#' @import purrr
+#' @importFrom glue glue
+#' @importFrom purrr map
+#' @importFrom patchwork wrap_plots
 #'
 #' @examples
+#' \dontrun{
 #' pals <- random_palette(5, 4)
-#' map(pals, ~show_palette(.x)) %>% wrap_plots
+#' map(pals, ~show_palette(.x)) %>%
+#'     wrap_plots
+#'}
 random_palette <- function(n_cols, n_palettes, from = "paletteer") {
 
   if(from == "random"){
@@ -101,12 +108,15 @@ random_palette <- function(n_cols, n_palettes, from = "paletteer") {
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' pal <- random_palette(5, 2)
 #' original <- map(pal, ~show_palette(.x, "original"))
 #' mutated <- pal %>%
-#'    mutation() %>%
-#'    map(~show_palette(.x, "mutated"))
-#' c(original, mutated) %>% wrap_plots
+#'     mutation() %>%
+#'     map(~show_palette(.x, "mutated"))
+#' c(original, mutated) %>%
+#'     wrap_plots
+#' }
 mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) {
   if(is.character(parents)) {
     parents <- list(parents)
@@ -134,15 +144,15 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 
 #' Show palette
 #'
-#' plots the discrete and continuous colour palettes
+#' plots a given discrete and continuous colour palettes
 #'
-#' @param n Number of colours to show. Defaults to c(length(pal), 200)
+#' @param n Number of colours to show. Defaults to \code{c(length(pal), 200)}.
 #' @param pal Palette. Character vector.
-#' @param title To add a title to the plot. Default NULL.
+#' @param title To add a title to the plot. Default \code{NULL}.
 #' @param labels Adds number labels to the colour palette.
 #' @param n_continuous Number of colours from the palette the continuous gradient uses. Default 3.
 #'
-#' @details By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can to set to more
+#' @details By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can set to more
 #' or less if desired.
 #'
 #' @return
@@ -153,9 +163,11 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #' @importFrom grDevices colorRampPalette
 #'
 #' @examples
+#' \dontrun{
 #' random_palette(5, 2) %>%
 #'     map(~show_palette(.x)) %>%
 #'     wrap_plots()
+#'     }
 show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuous = 3){
 
   if(is.null(n)) n <- c(length(pal), 200)
@@ -198,7 +210,7 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #'
 #' Sorts colour palette by hue.
 #'
-#' @param pal Palette. Character vector.
+#' @param pal Palette. Character vector of hex codes.
 #'
 #' @return
 #' @export
@@ -206,13 +218,15 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #' @importFrom grDevices col2rgb rgb2hsv
 #'
 #' @examples
+#' \dontrun{
 #' pal <- c("#564862", "#EEFBFD", "#594543", "#8E4B3E", "#BF6856")
 #' list(
 #'     unsorted = pal,
 #'     sorted = get_pal_order(pal)
-#' ) %>%
-#' imap(~show_palette(.x, .y)) %>%
-#' wrap_plots()
+#'     ) %>%
+#'     imap(~show_palette(.x, .y)) %>%
+#'     wrap_plots()
+#' }
 get_pal_order <- function(pal){
   .rgb <- t(col2rgb(pal))
   .rgb <- cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])))
@@ -230,15 +244,16 @@ get_pal_order <- function(pal){
 #' Plots MPG data displaying examples of the fill and colour aesthetics.
 #'
 #' @param aesthetic 'fill' or 'colour' aesthetic
-#' @param pal Palette list or character vector
+#' @param pal Palette list or character vector of hex codes
 #'
 #' @return
 #' @export
 #'
-#' @import ggplot2
-#' @import patchwork
 #' @import dplyr
+#' @import ggplot2
+#' @importFrom patchwork wrap_plots
 #' @importFrom stats dist
+#' @importFrom purrr map_chr imap
 #'
 #' @examples
 #' \dontrun{
@@ -282,7 +297,7 @@ plot_palette <- function(pal, aesthetic = "fill") {
 
 #' Evolve function
 #'
-#' Takes a set of parents and spawns a given number of children.
+#' Takes a set of parent palettes and spawns a given number of children.
 #'
 #' @param n_children Number of children to spawn.
 #' @param mutation_rate Mutation rate. Numeric (0-1).
@@ -292,7 +307,11 @@ plot_palette <- function(pal, aesthetic = "fill") {
 #' @details It is possible to evolve only 1 selected parent. In this case crossover has no effect however random mutations can
 #' still occur and the variation parameter will generate slight variations of the parent. Useful for tweaking a chosen palette.
 #'
+#' If selecting 3 or more parents, two are chosen at random to spawn a single child. This is repeated \code{n_children} times.
+#'
 #' The \code{variation} parameter varies a single colour by adjusting the standard error of a beta distribution.
+#'
+#' @importFrom purrr map
 #'
 #' @return
 #' @export
@@ -335,8 +354,8 @@ evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation
 #' box buy hitting 'save' for each palette individually. Upon closing the app, palettes can be retrieved by \code{open_palette_box()}.
 #'
 #' @import shiny
-#' @importFrom shinyalert useShinyalert shinyalert
 #' @import shinydashboard
+#' @importFrom shinyalert useShinyalert shinyalert
 #'
 #' @examples
 launch_evo_palette <- function() {
@@ -352,8 +371,8 @@ launch_evo_palette <- function() {
 #' @param clear Set to TRUE to clear the palette box. Default FALSE
 #'
 #' @details Any palettes saved while using the shiny app are saved here. Opening the box displays a list of the saved palettes. More
-#' Palettes will be saved here everytime you use the app during a single session. Remember to save the palette box before closing the
-#' session.
+#' Palettes will be saved here everytime the app is used with a session. Remember to save the palette box to disk before closing the
+#' session to permanently save the palette.
 #'
 #' @return
 #' @export
@@ -369,7 +388,6 @@ open_palette_box <-  function(clear = FALSE) {
 
 
 
-
 #' Generate palette name
 #'
 #' Generates a palette name for evolved palettes. Names are generated from a random combination of adjectives and food related words.
@@ -379,9 +397,8 @@ open_palette_box <-  function(clear = FALSE) {
 #' @return
 #' @export
 #'
-#' @import snakecase
-#' @import readr
-#' @import dplyr
+#' @importFrom snakecase to_title_case
+#' @importFrom readr read_rds
 #'
 #' @examples
 #' \dontrun{generate_palette_name(5)}

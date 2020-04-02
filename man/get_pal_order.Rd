@@ -7,17 +7,19 @@
 get_pal_order(pal)
 }
 \arguments{
-\item{pal}{Palette. Character vector.}
+\item{pal}{Palette. Character vector of hex codes.}
 }
 \description{
 Sorts colour palette by hue.
 }
 \examples{
+\dontrun{
 pal <- c("#564862", "#EEFBFD", "#594543", "#8E4B3E", "#BF6856")
 list(
     unsorted = pal,
     sorted = get_pal_order(pal)
-) \%>\%
-imap(~show_palette(.x, .y)) \%>\%
-wrap_plots()
+    ) \%>\%
+    imap(~show_palette(.x, .y)) \%>\%
+    wrap_plots()
+}
 }

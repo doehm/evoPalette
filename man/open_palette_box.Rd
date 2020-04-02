@@ -14,6 +14,6 @@ Opens the palette box containing saved palettes from the evoPalette Shiny app
 }
 \details{
 Any palettes saved while using the shiny app are saved here. Opening the box displays a list of the saved palettes. More
-Palettes will be saved here everytime you use the app during a single session. Remember to save the palette box before closing the
-session.
+Palettes will be saved here everytime the app is used with a session. Remember to save the palette box to disk before closing the
+session to permanently save the palette.
 }

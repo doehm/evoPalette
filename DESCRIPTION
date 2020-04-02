@@ -9,14 +9,14 @@ Description: Taking the next step in choosing the right colour palette. evoPalet
   random ones. Save each new palette you like to a palette box.
 Depends: 
   R (>= 3.5.0),
-  purrr,
-  ggplot2,
-  patchwork
 Imports:
   dplyr,
+  ggplot2,
   glue,
   grDevices,
   paletteer,
+  patchwork,
+  purrr,
   readr,
   shiny,
   shinyalert,

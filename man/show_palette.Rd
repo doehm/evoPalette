@@ -10,23 +10,25 @@ show_palette(pal, title = NULL, n = NULL, labels = FALSE,
 \arguments{
 \item{pal}{Palette. Character vector.}
 
-\item{title}{To add a title to the plot. Default NULL.}
+\item{title}{To add a title to the plot. Default \code{NULL}.}
 
-\item{n}{Number of colours to show. Defaults to c(length(pal), 200)}
+\item{n}{Number of colours to show. Defaults to \code{c(length(pal), 200)}.}
 
 \item{labels}{Adds number labels to the colour palette.}
 
 \item{n_continuous}{Number of colours from the palette the continuous gradient uses. Default 3.}
 }
 \description{
-plots the discrete and continuous colour palettes
+plots a given discrete and continuous colour palettes
 }
 \details{
-By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can to set to more
+By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can set to more
 or less if desired.
 }
 \examples{
+\dontrun{
 random_palette(5, 2) \%>\%
     map(~show_palette(.x)) \%>\%
     wrap_plots()
+    }
 }

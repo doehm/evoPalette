@@ -34,7 +34,8 @@ dashboardPage(skin = "yellow",
                       HTML(
                         "<p> <br />
                         The saved palettes can be retrieved<br />
-                        with open_palette_box()
+                        with open_palette_box(). Save one<br />
+                        palette at a time.
                         </p>"
                       ),
                       useShinyalert(),

@@ -21,6 +21,9 @@ Palettes can be selected from \code{paletteer} or \code{random} for a completely
 feeling very lucky.
 }
 \examples{
+\dontrun{
 pals <- random_palette(5, 4)
-map(pals, ~show_palette(.x)) \%>\% wrap_plots
+map(pals, ~show_palette(.x)) \%>\%
+    wrap_plots
+}
 }

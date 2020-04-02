@@ -24,10 +24,13 @@ values are less variable and larger values more variable.
 The \code{mutation_rate} is the probability any given colour will be replaced with a completely random one.
 }
 \examples{
+\dontrun{
 pal <- random_palette(5, 2)
 original <- map(pal, ~show_palette(.x, "original"))
 mutated <- pal \%>\%
-   mutation() \%>\%
-   map(~show_palette(.x, "mutated"))
-c(original, mutated) \%>\% wrap_plots
+    mutation() \%>\%
+    map(~show_palette(.x, "mutated"))
+c(original, mutated) \%>\%
+    wrap_plots
+}
 }

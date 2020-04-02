@@ -7,7 +7,7 @@
 plot_palette(pal, aesthetic = "fill")
 }
 \arguments{
-\item{pal}{Palette list or character vector}
+\item{pal}{Palette list or character vector of hex codes}
 
 \item{aesthetic}{'fill' or 'colour' aesthetic}
 }

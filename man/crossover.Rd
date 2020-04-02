@@ -17,9 +17,12 @@ A random number of genes are selected. The child gets the selected genes from on
 parent. The output is a new palette of the same length as the parents.
 }
 \examples{
+\dontrun{
 pals <- random_palette(5, 2)
 new_pals <- map(1:2, ~crossover(pals))
 parents <- c(pals, new_pals)
 names(parents) <- c("parent1", "parent2", "child1", "child2")
-imap(parents, ~show_palette(.x, .y)) \%>\% wrap_plots()
+imap(parents, ~show_palette(.x, .y)) \%>\%
+    wrap_plots()
+}
 }
