@@ -1,11 +1,16 @@
 ---
-output: github_document
+title: "Generate New Colour Palettes with evoPalette"
+author: "Daniel Oehm"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Generate New Colour Palettes with evoPalette}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE,
-)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # evoPalette
