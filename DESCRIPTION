@@ -4,9 +4,10 @@ Title: Generate New Colour Palettes
 Version: 0.1.0
 Author: Daniel Oehm
 Maintainer: Daniel Oehm <danieloehm@gmail.com>
-Description: Taking the next step in choosing the right colour palette. evoPalette uses a genetic algorithm
-  allowing users to generate their own colour palettes, either by evolving existing palettes or completely
-  random ones. Save each new palette you like to a palette box.
+Description: Taking the next step in choosing the right colour palette. Using colour pickers can be overwhelming and consuming to land
+  on the palette you are looking for. evoPalette uses a genetic algorithm allowing users to generate their own colour palettes, either 
+  by evolving existing palettes or completely random ones. The shiny application allows you to easily tweak the palettes until you 
+  discover the perfect one. Save each new palette you like to a palette box.
 Depends: 
   R (>= 3.5.0),
 Imports:
@@ -23,6 +24,10 @@ Imports:
   shinydashboard,
   snakecase,
   stats
+Suggests: 
+  knitr, 
+  rmarkdown
+VignetteBuilder: knitr
 License: CC0
 Encoding: UTF-8
 LazyData: true
