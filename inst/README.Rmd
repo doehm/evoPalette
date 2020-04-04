@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "README-",
   error = TRUE
 )
+knitr::opts_knit$set(root.dir = normalizePath(".."))
 ```
 
 
