@@ -48,7 +48,7 @@ generate minor variations on a single palette to tweak the colours.
 
 <center>
 
-<img src='inst/images/image2.png' height = '500px'>
+<img src='inst/images/image2.PNG' height = '500px'>
 
 </center>
 
@@ -57,7 +57,7 @@ practice.
 
 <center>
 
-<img src='inst/images/image2-fill.png' height = '500px'>
+<img src='inst/images/image2-fill.PNG' height = '500px'>
 
 </center>
 
@@ -70,7 +70,7 @@ save it to disk.
 
 <center>
 
-<img src='inst/images/save1a.png' height = '500px'>
+<img src='inst/images/save1a.PNG' height = '500px'>
 
 </center>
 
@@ -89,7 +89,7 @@ Select the parameters from the drop down in the menu.
 
 <center>
 
-<img src='inst/images/parameters.png' height = '400px'>
+<img src='inst/images/parameters.PNG' height = '400px'>
 
 </center>
 
