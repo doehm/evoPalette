@@ -40,7 +40,7 @@ together from the check box and click ‘evolve’.
 </center>
 
 The next generation of palettes will be created. Continue until you are
-happy with a palette.With each generation you’ll notice how the palette
+happy with a palette. With each generation you’ll notice how the palette
 is converging to a similar theme based on your selections, along with
 some variation of each individual colour and a chance of a completely
 random mutation. Selecting only a single parent is convenient to
