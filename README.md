@@ -26,7 +26,7 @@ To generate the first set of palettes, click ‘evolve’.
 
 <center>
 
-<img src='inst/images/image1.PNG' height = '500px'>
+<img src='man/images/image1.PNG' height = '500px'>
 
 </center>
 
@@ -35,12 +35,12 @@ together from the check box and click ‘evolve’.
 
 <center>
 
-<img src='inst/images/image-select.PNG' height = '350px'>
+<img src='man/images/image-select.PNG' height = '350px'>
 
 </center>
 
 The next generation of palettes will be created. Continue until you are
-happy with a palette. With each generation you’ll notice how the palette
+happy with a palette.With each generation you’ll notice how the palette
 is converging to a similar theme based on your selections, along with
 some variation of each individual colour and a chance of a completely
 random mutation. Selecting only a single parent is convenient to
@@ -48,7 +48,7 @@ generate minor variations on a single palette to tweak the colours.
 
 <center>
 
-<img src='inst/images/image2.PNG' height = '500px'>
+<img src='man/images/image2.PNG' height = '500px'>
 
 </center>
 
@@ -57,7 +57,7 @@ practice.
 
 <center>
 
-<img src='inst/images/image2-fill.PNG' height = '500px'>
+<img src='man/images/image2-fill.PNG' height = '500px'>
 
 </center>
 
@@ -70,7 +70,7 @@ save it to disk.
 
 <center>
 
-<img src='inst/images/save1a.png' height = '500px'>
+<img src='man/images/save1a.png' height = '500px'>
 
 </center>
 
@@ -89,7 +89,7 @@ Select the parameters from the drop down in the menu.
 
 <center>
 
-<img src='inst/images/parameters.PNG' height = '400px'>
+<img src='man/images/parameters.PNG' height = '400px'>
 
 </center>
 
