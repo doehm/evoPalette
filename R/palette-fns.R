@@ -351,7 +351,7 @@ evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation
 #' Use 'parameters' to adjust the extent of mutations and variations in the algorthm.
 #'
 #' Save a palette by selecting the checkbox of the desired palette and click save. You can save multiple palettes to the palette
-#' box buy hitting 'save' for each palette individually. Upon closing the app, palettes can be retrieved by \code{open_palette_box()}.
+#' box buy hitting 'save' for each palette individually. Upon closing the app, palettes can be retrieved by \code{palette_box()}.
 #'
 #' @import shiny
 #' @import shinydashboard
@@ -378,7 +378,7 @@ launch_evo_palette <- function() {
 #' @export
 #'
 #' @examples
-open_palette_box <-  function(clear = FALSE) {
+palette_box <-  function(clear = FALSE) {
   if(clear) {
     gallery$palette_box <- NULL
     message("palette box cleared")

@@ -9,20 +9,22 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "README-",
-  error = TRUE
-)
-knitr::opts_knit$set(root.dir = normalizePath(".."))
-```
-
-
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
   error = TRUE,
-  eval = FALSE
+  eval = FALSE,
+  fig.height = 5
 )
+# knitr::opts_knit$set(
+#   root.dir = normalizePath("..")
+#   )
+
+library(png)
+library(grid)
+library(shiny)
+library(glue)
+library(evoPalette)
 ```
+
+
 
 
 # evoPalette
@@ -46,21 +48,55 @@ launch_evo_palette()
 
 To generate the first set of palettes, click 'evolve'. 
 
-Select one or more palettes that you like and think may work well together from the checkbox and click 'evolve'. The next generation of palettes will be created. Continue until you are happy with a palette.
+`r HTML(glue("<center><img src='{normalizePath('./images/image1.png')}' class='center' height = '500px'></center>" ))`
 
-To save a palette, select the desired palette from the checkbox and click 'save'. The palette is now accessible from <code>open_palette_box()</code> once the app is closed. You can save multiple palettes which will be collected in the palette box.
+Select one or more palettes that you like and think may work well together from the check box and click 'evolve'. 
+
+`r HTML(glue("<center><img src='{normalizePath('./images/image-select.png')}' class='center' height = '400px'></center>" ))`
+
+The next generation of palettes will be created. Continue until you are happy with a palette.With each generation you'll notice how the palette is converging to a similar theme based on your selections, along with some variation of each individual colour and a chance of a completely random mutation. Selecting only a single parent is convenient to generate minor variations on a single palette to tweak the colours.
+
+`r HTML(glue("<center><img src='{normalizePath('./images/image2.png')}' class='center' height = '500px'></center>" ))`
+
+Select 'Example: Fill aesthetic' to see how the palette works in practice.
+
+`r HTML(glue("<center><img src='{normalizePath('./images/image2-fill.png')}' class='center' height = '500px'></center>" ))`
+
+To save a palette, select the desired palette from the check box and click 'save'. The palette is now accessible from <code>palette_box()</code> once the app is closed. You can save multiple palettes which will be collected in the palette box. The palette box will be refreshed when starting a new session so remember to save it to disk.
+
+`r HTML(glue("<center><img src='{normalizePath('./images/save1a.png')}' class='center' height = '500px'></center>" ))`
+
+```{r, echo = FALSE, eval = TRUE}
+load(normalizePath('./images/palette-box.Rdata'))
+```
+
+
+```{r, eval = TRUE}
+palette_box()
+```
+
+
+To begin again, deselect all palettes and click 'evolve'. A new set of randomly selected palettes will be shown.
+
 
 
 ## Control
 
 Select the parameters from the drop down in the menu.
 
+`r HTML(glue("<center><img src='{normalizePath('./images/parameters.png')}' class='center' height = '400px'></center>" ))`
+
+<!-- ![parameters](C:/Users/Dan/Google Drive/R Code/my-packages/evoPalette/inst/images/parameters.png) -->
+
 * Number of colours to generate for each palette
 * Number of palettes to generate at each evolution
 * Mutation rate - Each colour in the palette has a probability of random mutation equal to this value (default p = 0.05)
 * Mutation variation - Each colour will vary slightly around it's original value e.g. like a child not being the same height as either of their parents.
-* Load an existing palette from the global environment
+* Load an existing palette from the global environment. Object should be list, ideally with names.
 
 When you are happy with your selections, click 'evolve'
 
 
+## Acknowledgments 
+
+The package uses [paletteer](https://github.com/EmilHvitfeldt/paletteer) to initialise the palette selection. It is a collection of colour palettes that exist across multiple packages in R.
