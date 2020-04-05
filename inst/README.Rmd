@@ -48,7 +48,7 @@ launch_evo_palette()
 
 To generate the first set of palettes, click 'evolve'. 
 
-`r HTML(glue("<center><img src='{normalizePath('./images/image1.png')}' class='center' height = '500px'></center>" ))`
+`r HTML(glue("<center><img src='{normalizePath('./inst/images/image1.png')}' class='center' height = '500px'></center>" ))`
 
 Select one or more palettes that you like and think may work well together from the check box and click 'evolve'. 
 
@@ -85,8 +85,6 @@ To begin again, deselect all palettes and click 'evolve'. A new set of randomly 
 Select the parameters from the drop down in the menu.
 
 `r HTML(glue("<center><img src='{normalizePath('./images/parameters.png')}' class='center' height = '400px'></center>" ))`
-
-<!-- ![parameters](C:/Users/Dan/Google Drive/R Code/my-packages/evoPalette/inst/images/parameters.png) -->
 
 * Number of colours to generate for each palette
 * Number of palettes to generate at each evolution
