@@ -35,7 +35,7 @@ together from the check box and click ‘evolve’.
 
 <center>
 
-<img src='inst/images/image-select.png' height = '350px'>
+<img src='inst/images/image-select.PNG' height = '350px'>
 
 </center>
 
