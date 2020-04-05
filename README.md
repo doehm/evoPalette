@@ -24,28 +24,20 @@ launch_evo_palette()
 
 To generate the first set of palettes, click ‘evolve’.
 
-<!--html_preserve-->
-
 <center>
 
-<img src='C:\Users\Dan\Google Drive\R Code\my-packages\evoPalette\inst\images\image1.PNG' class='center' height = '500px'>
+<img src='inst/images/image1.png' class='center' height = '500px'>
 
 </center>
-
-<!--/html_preserve-->
 
 Select one or more palettes that you like and think may work well
 together from the check box and click ‘evolve’.
 
-<!--html_preserve-->
-
 <center>
 
-<img src='C:\Users\Dan\Google Drive\R Code\my-packages\evoPalette\inst\images\image-select.png' class='center' height = '400px'>
+<img src='inst/images/image-select.png' class='center' height = '350px'>
 
 </center>
-
-<!--/html_preserve-->
 
 The next generation of palettes will be created. Continue until you are
 happy with a palette.With each generation you’ll notice how the palette
@@ -54,28 +46,20 @@ some variation of each individual colour and a chance of a completely
 random mutation. Selecting only a single parent is convenient to
 generate minor variations on a single palette to tweak the colours.
 
-<!--html_preserve-->
-
 <center>
 
-<img src='C:\Users\Dan\Google Drive\R Code\my-packages\evoPalette\inst\images\image2.PNG' class='center' height = '500px'>
+<img src='inst/images/image2.png' class='center' height = '500px'>
 
 </center>
-
-<!--/html_preserve-->
 
 Select ‘Example: Fill aesthetic’ to see how the palette works in
 practice.
 
-<!--html_preserve-->
-
 <center>
 
-<img src='C:\Users\Dan\Google Drive\R Code\my-packages\evoPalette\inst\images\image2-fill.png' class='center' height = '500px'>
+<img src='inst/images/image2-fill.png' class='center' height = '500px'>
 
 </center>
-
-<!--/html_preserve-->
 
 To save a palette, select the desired palette from the check box and
 click ‘save’. The palette is now accessible from
@@ -84,15 +68,11 @@ multiple palettes which will be collected in the palette box. The
 palette box will be refreshed when starting a new session so remember to
 save it to disk.
 
-<!--html_preserve-->
-
 <center>
 
-<img src='C:\Users\Dan\Google Drive\R Code\my-packages\evoPalette\inst\images\save1a.png' class='center' height = '500px'>
+<img src='inst/images/save1a.png' class='center' height = '500px'>
 
 </center>
-
-<!--/html_preserve-->
 
 ``` r
 palette_box()
@@ -107,17 +87,11 @@ randomly selected palettes will be shown.
 
 Select the parameters from the drop down in the menu.
 
-<!--html_preserve-->
-
 <center>
 
-<img src='C:\Users\Dan\Google Drive\R Code\my-packages\evoPalette\inst\images\parameters.png' class='center' height = '400px'>
+<img src='inst/images/parameters.png' class='center' height = '400px'>
 
 </center>
-
-<!--/html_preserve-->
-
-<!-- ![parameters](C:/Users/Dan/Google Drive/R Code/my-packages/evoPalette/inst/images/parameters.png) -->
 
   - Number of colours to generate for each palette
   - Number of palettes to generate at each evolution
