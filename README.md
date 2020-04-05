@@ -26,7 +26,7 @@ To generate the first set of palettes, click ‘evolve’.
 
 <center>
 
-<img src='inst/images/image1.png' height = '500px'>
+<img src='inst/images/image1.PNG' height = '600px'>
 
 </center>
 
