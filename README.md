@@ -70,7 +70,7 @@ save it to disk.
 
 <center>
 
-<img src='inst/images/save1a.PNG' height = '500px'>
+<img src='inst/images/save1a.png' height = '500px'>
 
 </center>
 
