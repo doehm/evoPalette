@@ -6,7 +6,7 @@ Author: Daniel Oehm
 Maintainer: Daniel Oehm <danieloehm@gmail.com>
 Description: Taking the next step in choosing the right colour palette. Using colour pickers can be overwhelming and consuming to land
   on the palette you are looking for. evoPalette uses a genetic algorithm allowing users to generate their own colour palettes, either 
-  by evolving existing palettes or completely random ones. The shiny application allows you to easily tweak the palettes until you 
+  by evolving existing palettes or completely random ones. The Shiny application allows you to easily tweak palettes until you 
   discover the perfect one. Save each new palette you like to a palette box.
 Depends: 
   R (>= 3.5.0),
@@ -32,3 +32,5 @@ License: CC0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+URL: https://github.com/doehm/evoPalette
+Bugreports: https://github.com/doehm/evoPalette/issues

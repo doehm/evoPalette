@@ -109,4 +109,5 @@ When you are happy with your selections, click ‘evolve’
 
 The package uses [paletteer](https://github.com/EmilHvitfeldt/paletteer)
 to initialise the palette selection. It is a collection of colour
-palettes that exist across multiple packages in R.
+palettes that exist across multiple packages in R. This package would
+not work as well without it’s help.
