@@ -41,10 +41,10 @@ crossover <- function(parents) {
 #' Selects a random palette either from an exisiting set of palettes or completely random.
 #'
 #' @param n_palettes Number of palettes to generate. Numeric.
-#' @param from Where to select or generate the palette from. See details.
 #' @param n_cols Number of colours in the palette. Numeric.
+#' @param feeling_lucky If TRUE generates completely random colours for the palette. Default FALSE
 #'
-#' @details Palettes can be selected from \code{paletteer} or \code{random} for a completely random palette and if you're
+#' @details Palettes can be randomly selected from existing palettes or completely random colours if you're
 #' feeling very lucky.
 #'
 #' @return
@@ -52,7 +52,7 @@ crossover <- function(parents) {
 #'
 #' @import paletteer
 #' @importFrom glue glue
-#' @importFrom purrr map
+#' @importFrom purrr map set_names
 #' @importFrom patchwork wrap_plots
 #'
 #' @examples
@@ -61,18 +61,17 @@ crossover <- function(parents) {
 #' map(pals, ~show_palette(.x)) %>%
 #'     wrap_plots
 #'}
-random_palette <- function(n_cols, n_palettes, from = "paletteer") {
+random_palette <- function(n_cols, n_palettes, feeling_lucky = FALSE) {
 
-  if(from == "random"){
+  if(feeling_lucky){
     return(
       map(1:n_palettes, ~{
         rgb(r = runif(n_cols), g = runif(n_cols), b = runif(n_cols), runif(n_cols))
         }) %>%
-        map(~get_pal_order(.x))
+        map(~get_pal_order(.x)) %>%
+        set_names(generate_palette_name(n_palettes))
     )
-  }
-
-  if(from == "paletteer") {
+  }else{
       palette_draws <- map(1:n_palettes, ~{
         pal_names <- paletteer::palettes_d_names[sample(1:nrow(paletteer::palettes_d_names), 1),]
       })
@@ -128,7 +127,7 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
     map(~{
       df <- .x
       mutation_id <- runif(length(.x)) < mutation_rate
-      random_rgb <- random_palette(length(.x), 1, from = "random")[[1]]
+      random_rgb <- random_palette(length(.x), 1, feeling_lucky = TRUE)[[1]]
       df[mutation_id] <- random_rgb[mutation_id]
       df
     }) %>%
@@ -264,7 +263,14 @@ plot_palette <- function(pal, aesthetic = "fill") {
   if(is.character(pal)) pal <- list(pal)
   if(aesthetic == "fill"){
     g <- ggplot(ggplot2::mpg, aes(x = ggplot2::mpg$displ, fill = class)) + geom_histogram(bins = 30)
-    imap(pal, ~g + scale_fill_manual(values = colorRampPalette(.x)(7)) +
+    imap(pal, ~{
+          if(length(.x) < 7) {
+            cols <- colorRampPalette(.x)(7)
+          }else{
+            cols <- .x[1:7]
+          }
+          g +
+          scale_fill_manual(values = cols) +
           labs(
             title = to_title_case(.y),
             x = "Engine size (L)",
@@ -272,11 +278,12 @@ plot_palette <- function(pal, aesthetic = "fill") {
           ) +
            theme(
              plot.title = element_text(hjust = 0.5, size = 18)
-           )) %>%
+           )}) %>%
       wrap_plots()
   }else{
     g <- ggplot(ggplot2::mpg, aes(x = ggplot2::mpg$displ, y = ggplot2::mpg$hwy, colour = ggplot2::mpg$displ)) + geom_point(size = 7)
-    imap(pal, ~g + scale_colour_gradientn(colours = colorRampPalette(.x[seq(1, length(.x), length = 3)])(200)) +
+    imap(pal, ~g +
+          scale_colour_gradientn(colours = colorRampPalette(.x[seq(1, length(.x), 3)])(200)) +
           labs(
             title = to_title_case(.y),
             x = "Engine size (L)",

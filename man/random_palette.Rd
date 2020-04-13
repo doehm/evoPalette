@@ -4,20 +4,20 @@
 \alias{random_palette}
 \title{Random palette}
 \usage{
-random_palette(n_cols, n_palettes, from = "paletteer")
+random_palette(n_cols, n_palettes, feeling_lucky = FALSE)
 }
 \arguments{
 \item{n_cols}{Number of colours in the palette. Numeric.}
 
 \item{n_palettes}{Number of palettes to generate. Numeric.}
 
-\item{from}{Where to select or generate the palette from. See details.}
+\item{feeling_lucky}{If TRUE generates completely random colours for the palette. Default FALSE}
 }
 \description{
 Selects a random palette either from an exisiting set of palettes or completely random.
 }
 \details{
-Palettes can be selected from \code{paletteer} or \code{random} for a completely random palette and if you're
+Palettes can be randomly selected from existing palettes or completely random colours if you're
 feeling very lucky.
 }
 \examples{

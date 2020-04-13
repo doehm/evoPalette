@@ -8,7 +8,7 @@ function(input, output) {
         }
         if(gallery$random) {
             gallery$random <- FALSE
-            gallery$current_palette <- random_palette(input$n_cols, input$n_palettes)
+            gallery$current_palette <- random_palette(input$n_cols, input$n_palettes, input$feeling_lucky)
         }else{
             gallery$current_palette <- evolve(
                 gallery$current_palette[input$selected_parents_ui],
@@ -22,6 +22,7 @@ function(input, output) {
             n <- length(p0)
             gallery$current_palette <- c(p0, gallery$current_palette[1:(input$n_palettes-n)])
         }
+        names(gallery$current_palette) <- tolower(to_parsed_case(names(gallery$current_palette)))
         gallery$current_palette
     })
 
@@ -43,8 +44,9 @@ function(input, output) {
     })
 
     save_pal_name_input <- eventReactive(input$shinyalert, {
-        gallery$palette_box[[input$shinyalert]] <- gallery$current_palette[input$selected_parents_ui][[1]]
-        show_palette(gallery$palette_box[[input$shinyalert]], title = input$shinyalert)
+        name <- tolower(to_parsed_case(input$shinyalert))
+        gallery$palette_box[[name]] <- gallery$current_palette[input$selected_parents_ui][[1]]
+        show_palette(gallery$palette_box[[name]], title = input$shinyalert)
     })
 
     # render palettes

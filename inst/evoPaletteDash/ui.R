@@ -27,7 +27,8 @@ dashboardPage(skin = "yellow",
                                numericInput("n_palettes", "Number of Palettes", value = 6, min = 2, max = 12),
                                numericInput("mutation_rate", "Mutation rate (0 - 1)", 0.05),
                                numericInput("variation", "Variation (0 - 1)", 0.01),
-                               textInput("load_palette", "Load palettes (name of list)")
+                               textInput("load_palette", "Load palettes (name of list)"),
+                               checkboxInput("feeling_lucky", "Feeling lucky", FALSE)
                                ),
                       uiOutput("selected_parents_ui"),
                       actionButton("evolve_button", "Evolve"),
