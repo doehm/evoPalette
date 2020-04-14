@@ -44,8 +44,8 @@ crossover <- function(parents) {
 #' @param n_cols Number of colours in the palette. Numeric.
 #' @param feeling_lucky If TRUE generates completely random colours for the palette. Default FALSE
 #'
-#' @details Palettes can be randomly selected from existing palettes or completely random colours if you're
-#' feeling very lucky.
+#' @details Palettes can be randomly selected from existing palettes from \code{evoPalette} or \code{paletteer},
+#' or completely random colours if you're feeling very lucky.
 #'
 #' @return
 #' @export
@@ -72,18 +72,48 @@ random_palette <- function(n_cols, n_palettes, feeling_lucky = FALSE) {
         set_names(generate_palette_name(n_palettes))
     )
   }else{
-      palette_draws <- map(1:n_palettes, ~{
-        pal_names <- paletteer::palettes_d_names[sample(1:nrow(paletteer::palettes_d_names), 1),]
-      })
-      names(palette_draws) <- map_chr(palette_draws, ~{.x$palette}) %>% to_title_case()
-      palette_draws <- map(palette_draws, ~{
-        pal <- paletteer::paletteer_d(glue("{.x$package}::{.x$palette}"))
-        colorRampPalette(pal)(n_cols)
-      }) %>%
-      map(~get_pal_order(.x))
-      return(palette_draws)
+    pal_df <- get_palette_data() %>%
+      filter(n_cols < 10) %>%
+      sample_n(n_palettes)
+
+    pal_df$palette %>%
+      map(~colorRampPalette(.x)(n_cols)) %>%
+      set_names(pal_df$name)
   }
 }
+
+
+
+
+
+#' Read palette data
+#'
+#' Pulls together evoPalette and paletteer palettes ready to sample
+#'
+#' @return
+#' @export
+#'
+#' @importFrom purrr map2
+#'
+#' @examples
+#' \dontrun{get_palette_data()}
+get_palette_data <- function() {
+  # not using tidyverse syntax in order to pass the R CMD checks
+  # more clunky but it works
+  evo_df <- readRDS("C:/Users/Dan/Google Drive/R Code/my-packages/evoPalette/inst/extdata/palettes.rds")
+  evo_df$package <- "evoPalette"
+  pltr_df <- as_tibble(paletteer::palettes_d_names)
+  pltr_df$name <- pltr_df$palette
+  pltr_df$n_cols <- pltr_df$length
+  pltr_df$category <- pltr_df$type
+  evo_df %>%
+    bind_rows(
+      pltr_df %>%
+        mutate(palette = purrr::map2(pltr_df$package, pltr_df$name, ~as.character(paletteer::paletteer_d(glue("{.x}::{.y}")))))
+    ) %>%
+  select(1, 5, 2, 4, 3)
+}
+
 
 
 
@@ -410,9 +440,10 @@ palette_box <-  function(clear = FALSE) {
 #' @examples
 #' \dontrun{generate_palette_name(5)}
 generate_palette_name <- function(n) {
-  adj <- read_rds(list.files(system.file('extdata', package = 'evoPalette'), full.names = TRUE)[2])
-  adj <- sample(adj$word[adj$type == "adjective"], n)
-  food <- read_rds(list.files(system.file('extdata', package = 'evoPalette'), full.names = TRUE)[1])
+  files <- list.files(system.file('extdata', package = 'evoPalette'), full.names = TRUE)
+  adjective <- read_rds(grep("adjectives", files, value = TRUE))
+  adjective <- sample(adjective$word[adjective$type == "adjective"], n)
+  food <- read_rds(grep("food", files, value = TRUE))
   food <- sample(food$food_word, n)
-  to_title_case(paste(adj, food))
+  to_title_case(paste(adjective, food))
 }

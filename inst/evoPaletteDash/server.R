@@ -40,7 +40,7 @@ function(input, output) {
     })
 
     observeEvent(input$save_palette, {
-        shinyalert("Palette name", "Select a name for your palette...", type = "input", inputValue = input$selected_parents_ui[1])
+        shinyalert("Palette name", "Select a name for your palette...", type = "input", inputValue = to_title_case(input$selected_parents_ui[1]))
     })
 
     save_pal_name_input <- eventReactive(input$shinyalert, {
@@ -49,12 +49,12 @@ function(input, output) {
         show_palette(gallery$palette_box[[name]], title = input$shinyalert)
     })
 
+
+
     # render palettes
     output$palette_plots <- renderPlot({
         palettes()
     })
-
-
 
     # render example plots
     output$palette_examples <- renderPlot({
@@ -69,7 +69,7 @@ function(input, output) {
 
     # render checkbox ui
     output$selected_parents_ui <- renderUI({
-        checkboxGroupInput("selected_parents_ui", "Select parents", names(pals()), inline = FALSE)
+        checkboxGroupInput("selected_parents_ui", "Select parents", choiceNames = to_title_case(names(pals())), choiceValues = names(pals()), inline = FALSE)
     })
 
     output$saved_pal <- renderPlot({
