@@ -4,10 +4,12 @@
 \alias{get_pal_order}
 \title{Palette colour order}
 \usage{
-get_pal_order(pal)
+get_pal_order(pal, rgb_hsv = "both")
 }
 \arguments{
 \item{pal}{Palette. Character vector of hex codes.}
+
+\item{rgb_hsv}{Sort by either rgb, hsv or both}
 }
 \description{
 Sorts colour palette by hue.

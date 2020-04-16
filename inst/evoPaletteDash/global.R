@@ -12,3 +12,4 @@ if(!exists("gallery")) {
 }
 gallery$current_palette <- NULL
 gallery$random <- TRUE
+sort_methods <- c("RGB", "HSV", "Both")

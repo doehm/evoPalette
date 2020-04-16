@@ -2,7 +2,7 @@
 function(input, output) {
 
     # generate palettes either
-    pals <- eventReactive(input$evolve_button, {
+    pals_gen <- eventReactive(input$evolve_button, {
         if(is.null(input$selected_parents_ui)) {
             gallery$random <- TRUE
         }
@@ -25,6 +25,11 @@ function(input, output) {
         names(gallery$current_palette) <- tolower(to_parsed_case(names(gallery$current_palette)))
         gallery$current_palette
     })
+
+    pals <- reactive({
+        map(pals_gen(), ~get_pal_order(.x, tolower(input$sortby)))
+    })
+
 
     palettes <- reactive({
         show_palettes <- imap(pals(), ~show_palette(.x, title = .y))

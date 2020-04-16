@@ -101,7 +101,6 @@ get_palette_data <- function() {
   # not using tidyverse syntax in order to pass the R CMD checks
   # more clunky but it works
   evo_df <- readRDS("C:/Users/Dan/Google Drive/R Code/my-packages/evoPalette/inst/extdata/palettes.rds")
-  evo_df$package <- "evoPalette"
   pltr_df <- as_tibble(paletteer::palettes_d_names)
   pltr_df$name <- pltr_df$palette
   pltr_df$n_cols <- pltr_df$length
@@ -240,6 +239,7 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #' Sorts colour palette by hue.
 #'
 #' @param pal Palette. Character vector of hex codes.
+#' @param rgb_hsv Sort by either rgb, hsv or both
 #'
 #' @return
 #' @export
@@ -256,10 +256,14 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #'     imap(~show_palette(.x, .y)) %>%
 #'     wrap_plots()
 #' }
-get_pal_order <- function(pal){
+get_pal_order <- function(pal, rgb_hsv = "both"){
   .rgb <- t(col2rgb(pal))
-  .rgb <- cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])))
-  d <- dist(.rgb)
+  col_vector <- switch(rgb_hsv,
+    rgb = .rgb,
+    hsv = t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])),
+    both = cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])))
+  )
+  d <- dist(col_vector)
   begin <- which(pal == sort(pal)[1])
   order <- as.numeric(names(sort(as.matrix(d)[begin,])))
   pal[order]

@@ -27,6 +27,7 @@ dashboardPage(skin = "yellow",
                                numericInput("n_palettes", "Number of Palettes", value = 6, min = 2, max = 12),
                                numericInput("mutation_rate", "Mutation rate (0 - 1)", 0.05),
                                numericInput("variation", "Variation (0 - 1)", 0.01),
+                               pickerInput("sortby", "Sort by ...", sort_methods, "Both"),
                                textInput("load_palette", "Load palettes (name of list)"),
                                checkboxInput("feeling_lucky", "Feeling lucky", FALSE)
                                ),
