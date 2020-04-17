@@ -1,6 +1,6 @@
 Package: evoPalette
 Type: Package
-Title: Generate New Colour Palettes
+Title: Generate New Colour Palettes Using an Evolutionary Algorithm
 Version: 0.1.0
 Author: Daniel Oehm
 Maintainer: Daniel Oehm <danieloehm@gmail.com>

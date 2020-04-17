@@ -101,7 +101,7 @@ random_palette <- function(n_cols, n_palettes, feeling_lucky = FALSE) {
 get_palette_data <- function() {
   # not using tidyverse syntax in order to pass the R CMD checks
   # more clunky but it works
-  evo_df <- readRDS("C:/Users/Dan/Google Drive/R Code/my-packages/evoPalette/inst/extdata/palettes.rds")
+  evo_df <- readRDS(system.file("extdata/palettes.rds", package = "evoPalette"))
   pltr_df <- as_tibble(paletteer::palettes_d_names)
   pltr_df$name <- pltr_df$palette
   pltr_df$n_cols <- pltr_df$length
