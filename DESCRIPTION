@@ -22,8 +22,10 @@ Imports:
   shiny,
   shinyalert,
   shinydashboard,
+  shinyWidgets,
   snakecase,
-  stats
+  stats,
+  stringr
 Suggests: 
   knitr, 
   rmarkdown

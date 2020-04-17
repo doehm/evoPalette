@@ -6,16 +6,16 @@
 \alias{scale_colour_evo}
 \title{evoPalette palette function}
 \usage{
-evo_pal(name, discrete = TRUE, reverse = FALSE, ...)
+evo_pal(name, scale_type, reverse = FALSE, ...)
 
-scale_fill_evo(name, discrete = TRUE, reverse = FALSE, ...)
+scale_fill_evo(name, scale_type, reverse = FALSE, ...)
 
-scale_colour_evo(name, discrete = TRUE, reverse = FALSE, ...)
+scale_colour_evo(name, scale_type = "d", reverse = FALSE, ...)
 }
 \arguments{
 \item{name}{Name of palette in the palette box}
 
-\item{discrete}{Logical. Is the aesthetic discrete?}
+\item{scale_type}{Discrete or continuous. Input \code{c} / \code{d}.}
 
 \item{reverse}{Logical. Reverse the palette?}
 

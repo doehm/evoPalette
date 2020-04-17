@@ -94,6 +94,7 @@ random_palette <- function(n_cols, n_palettes, feeling_lucky = FALSE) {
 #' @export
 #'
 #' @importFrom purrr map2
+#' @import dplyr
 #'
 #' @examples
 #' \dontrun{get_palette_data()}
@@ -245,6 +246,7 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #' @export
 #'
 #' @importFrom grDevices col2rgb rgb2hsv
+#' @importFrom stats dist
 #'
 #' @examples
 #' \dontrun{
@@ -272,69 +274,6 @@ get_pal_order <- function(pal, rgb_hsv = "both"){
 
 
 
-#' Test plot
-#'
-#' Plots MPG data displaying examples of the fill and colour aesthetics.
-#'
-#' @param aesthetic 'fill' or 'colour' aesthetic
-#' @param pal Palette list or character vector of hex codes
-#'
-#' @return
-#' @export
-#'
-#' @import dplyr
-#' @import ggplot2
-#' @importFrom patchwork wrap_plots
-#' @importFrom stats dist
-#' @importFrom purrr map_chr imap
-#'
-#' @examples
-#' \dontrun{
-#' random_palette(5, 1) %>%
-#'     plot_palette()
-#' }
-plot_palette <- function(pal, aesthetic = "fill") {
-  if(is.character(pal)) pal <- list(pal)
-  if(aesthetic == "fill"){
-    g <- ggplot(ggplot2::mpg, aes(x = ggplot2::mpg$displ, fill = class)) + geom_histogram(bins = 30)
-    imap(pal, ~{
-          if(length(.x) < 7) {
-            cols <- colorRampPalette(.x)(7)
-          }else{
-            cols <- .x[1:7]
-          }
-          g +
-          scale_fill_manual(values = cols) +
-          labs(
-            title = to_title_case(.y),
-            x = "Engine size (L)",
-            fill = "Vehicle\nclass"
-          ) +
-           theme(
-             plot.title = element_text(hjust = 0.5, size = 18)
-           )}) %>%
-      wrap_plots()
-  }else{
-    g <- ggplot(ggplot2::mpg, aes(x = ggplot2::mpg$displ, y = ggplot2::mpg$hwy, colour = ggplot2::mpg$displ)) + geom_point(size = 7)
-    imap(pal, ~g +
-          scale_colour_gradientn(colours = colorRampPalette(.x[seq(1, length(.x), 3)])(200)) +
-          labs(
-            title = to_title_case(.y),
-            x = "Engine size (L)",
-            y = "MPG on highway",
-            colour = "Engine\nsize"
-          ) +
-           theme(
-             plot.title = element_text(hjust = 0.5, size = 18)
-           )) %>%
-      wrap_plots()
-  }
-}
-
-
-
-
-
 
 #' Evolve function
 #'
@@ -353,6 +292,7 @@ plot_palette <- function(pal, aesthetic = "fill") {
 #' The \code{variation} parameter varies a single colour by adjusting the standard error of a beta distribution.
 #'
 #' @importFrom purrr map
+#' @importFrom dplyr %>%
 #'
 #' @return
 #' @export
@@ -397,6 +337,7 @@ evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation
 #' @import shiny
 #' @import shinydashboard
 #' @importFrom shinyalert useShinyalert shinyalert
+#' @importFrom shinyWidgets pickerInput
 #'
 #' @examples
 launch_evo_palette <- function() {
