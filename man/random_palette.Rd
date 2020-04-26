@@ -11,14 +11,14 @@ random_palette(n_cols, n_palettes, feeling_lucky = FALSE)
 
 \item{n_palettes}{Number of palettes to generate. Numeric.}
 
-\item{feeling_lucky}{If TRUE generates completely random colours for the palette. Default FALSE}
+\item{feeling_lucky}{If \code{TRUE} generates completely random colours for the palette. Default FALSE}
 }
 \description{
 Selects a random palette either from an exisiting set of palettes or completely random.
 }
 \details{
 Palettes can be randomly selected from existing palettes from \code{evoPalette} or \code{paletteer},
-or completely random colours if you're feeling very lucky.
+or completely random colours if you're feeling lucky.
 }
 \examples{
 \dontrun{

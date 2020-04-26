@@ -12,6 +12,10 @@ generate_palette_name(n)
 \description{
 Generates a palette name for evolved palettes. Names are generated from a random combination of adjectives and food related words.
 }
+\details{
+This function randomly draws an adjective and a food related word from a dictionary The name is assigned to a newly generated
+palette. Palette name can be changed when saving.
+}
 \examples{
 \dontrun{generate_palette_name(5)}
 }

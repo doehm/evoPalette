@@ -17,11 +17,12 @@
 #'
 #' @examples
 #' \dontrun{
+#' set.seed(200422)
 #' pals <- random_palette(5, 2)
 #' new_pals <- map(1:2, ~crossover(pals))
 #' parents <- c(pals, new_pals)
 #' names(parents) <- c("parent1", "parent2", "child1", "child2")
-#' imap(parents, ~show_palette(.x, .y)) %>%
+#' imap(parents, ~show_palette(.x, .y, labels = TRUE)) %>%
 #'     wrap_plots()
 #'}
 crossover <- function(parents) {
@@ -29,7 +30,7 @@ crossover <- function(parents) {
   id <- which(round(runif(n)) == 0)
   child <- parents[[1]]
   child[id] <- parents[[2]][id]
-  child <- get_pal_order(child)
+  child <- sort_palette(child)
   child
 }
 
@@ -42,10 +43,10 @@ crossover <- function(parents) {
 #'
 #' @param n_palettes Number of palettes to generate. Numeric.
 #' @param n_cols Number of colours in the palette. Numeric.
-#' @param feeling_lucky If TRUE generates completely random colours for the palette. Default FALSE
+#' @param feeling_lucky If \code{TRUE} generates completely random colours for the palette. Default FALSE
 #'
 #' @details Palettes can be randomly selected from existing palettes from \code{evoPalette} or \code{paletteer},
-#' or completely random colours if you're feeling very lucky.
+#' or completely random colours if you're feeling lucky.
 #'
 #' @return
 #' @export
@@ -66,13 +67,13 @@ random_palette <- function(n_cols, n_palettes, feeling_lucky = FALSE) {
   if(feeling_lucky){
     return(
       map(1:n_palettes, ~{
-        rgb(r = runif(n_cols), g = runif(n_cols), b = runif(n_cols), runif(n_cols))
+        rgb(r = runif(n_cols), g = runif(n_cols), b = runif(n_cols), alpha = runif(n_cols))
         }) %>%
-        map(~get_pal_order(.x)) %>%
+        map(~sort_palette(.x)) %>%
         set_names(generate_palette_name(n_palettes))
     )
   }else{
-    pal_df <- get_palette_data() %>%
+    pal_df <- palette_data %>%
       filter(n_cols < 10) %>%
       sample_n(n_palettes)
 
@@ -81,6 +82,8 @@ random_palette <- function(n_cols, n_palettes, feeling_lucky = FALSE) {
       set_names(pal_df$name)
   }
 }
+
+
 
 
 
@@ -96,11 +99,8 @@ random_palette <- function(n_cols, n_palettes, feeling_lucky = FALSE) {
 #' @importFrom purrr map2
 #' @import dplyr
 #'
-#' @examples
-#' \dontrun{get_palette_data()}
-get_palette_data <- function() {
+palette_data <- {
   # not using tidyverse syntax in order to pass the R CMD checks
-  # more clunky but it works
   evo_df <- readRDS(system.file("extdata/palettes.rds", package = "evoPalette"))
   pltr_df <- as_tibble(paletteer::palettes_d_names)
   pltr_df$name <- pltr_df$palette
@@ -111,7 +111,7 @@ get_palette_data <- function() {
       pltr_df %>%
         mutate(palette = purrr::map2(pltr_df$package, pltr_df$name, ~as.character(paletteer::paletteer_d(glue("{.x}::{.y}")))))
     ) %>%
-  select(1, 5, 2, 4, 3)
+    select(1, 5, 2, 4, 3)
 }
 
 
@@ -124,14 +124,9 @@ get_palette_data <- function() {
 #' Applies the mutation step in the evolutionary algorithm
 #'
 #' @param parents List of parents to apply the mutation step.
-#' @param mutation_rate Mutation rate. Numeric value between 0-1 representing the probability of mutation of a single gene.
-#' @param variation_parameter Random variation applied to every gene. Numeric value between 0-1.
+#' @param mutation_rate Mutation rate. Numeric value between 0-1 representing the probability of mutation of a single colour.
+#' @param variation_parameter Numeric value between 0-1. Random variation applied to every gene.
 #'
-#' @details A colour is converted to RGB and each value is randomly drawn from a beta distribution
-#' red, green or blue values on the 0-1 scale as the mean and approximate standard deviation of \code{variation_parameter}. In short smaller
-#' values are less variable and larger values more variable.
-#'
-#' The \code{mutation_rate} is the probability any given colour will be replaced with a completely random one.
 #'
 #' @return
 #' @export
@@ -161,7 +156,7 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
       df[mutation_id] <- random_rgb[mutation_id]
       df
     }) %>%
-    map(~get_pal_order(.x))
+    map(~sort_palette(.x))
 }
 
 
@@ -173,12 +168,12 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 
 #' Show palette
 #'
-#' plots a given discrete and continuous colour palettes
+#' plots a given discrete and continuous colour palette
 #'
 #' @param n Number of colours to show. Defaults to \code{c(length(pal), 200)}.
 #' @param pal Palette. Character vector.
 #' @param title To add a title to the plot. Default \code{NULL}.
-#' @param labels Adds number labels to the colour palette.
+#' @param labels Logical. Adds the hex label to the colour palette.
 #' @param n_continuous Number of colours from the palette the continuous gradient uses. Default 3.
 #'
 #' @details By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can set to more
@@ -240,7 +235,16 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #' Sorts colour palette by hue.
 #'
 #' @param pal Palette. Character vector of hex codes.
-#' @param rgb_hsv Sort by either rgb, hsv or both
+#' @param rgb_hsv Sort by either rgb, hsv, both, none or normal. See details.
+#'
+#' @details Sorting colours is near impossible to get it right everytime. This allows sorting by a few methods. Default is \code{both}.
+#' \itemize{
+#' \item{\code{rgb}}: Sorts by RGB by first finding the lightest, then it's nearest neighbour and so on.
+#' \item{\code{hsv}}: Sorts by HSV by first finding the most saturated, then it's nearest neighbour and so on.
+#' \item{\code{both}}: Both RGB and HSV.
+#' \item{\code{normal}}: Simple character sort on hex codes.
+#' \item{\code{none}}: Returns the same order. Can be convenient.
+#' }
 #'
 #' @return
 #' @export
@@ -253,21 +257,31 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #' pal <- c("#564862", "#EEFBFD", "#594543", "#8E4B3E", "#BF6856")
 #' list(
 #'     unsorted = pal,
-#'     sorted = get_pal_order(pal)
+#'     sorted = sort_palette(pal)
 #'     ) %>%
 #'     imap(~show_palette(.x, .y)) %>%
 #'     wrap_plots()
 #' }
-get_pal_order <- function(pal, rgb_hsv = "both"){
-  .rgb <- t(col2rgb(pal))
+sort_palette <- function(pal, rgb_hsv = "both"){
+  if(rgb_hsv == "none") return(pal)
+  if(rgb_hsv == "normal") return(sort(pal))
+  .rgb <- t(col2rgb(pal))/255
   col_vector <- switch(rgb_hsv,
     rgb = .rgb,
     hsv = t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])),
-    both = cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])))
+    both = cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])), l = sqrt(0.241*.rgb[,1] + 0.691*.rgb[,2] + 0.068*.rgb[,3]))
   )
-  d <- dist(col_vector)
-  begin <- which(pal == sort(pal)[1])
-  order <- as.numeric(names(sort(as.matrix(d)[begin,])))
+  d <- as.matrix(dist(col_vector))
+  id <- sort(apply(col_vector, 1, min), decreasing = TRUE, index.return = TRUE)$ix
+  begin <- id[1]
+  d[d == 0] <- 99
+  nm <- as.numeric(colnames(d))
+  order <- rep(NA, length(pal))
+  order[1] <- begin
+  for(k in 1:(length(pal)-1)) {
+    order[k+1] <- which.min(d[order[k],])
+    d[,order[k]] <- 99
+  }
   pal[order]
 }
 
@@ -285,11 +299,9 @@ get_pal_order <- function(pal, rgb_hsv = "both"){
 #' @param variation Variation parameter. Controls the extent a single colour varies during mutation.
 #'
 #' @details It is possible to evolve only 1 selected parent. In this case crossover has no effect however random mutations can
-#' still occur and the variation parameter will generate slight variations of the parent. Useful for tweaking a chosen palette.
+#' still occur and the \code{variation} parameter will generate slight variations of the parent. Useful for tweaking a chosen palette.
 #'
 #' If selecting 3 or more parents, two are chosen at random to spawn a single child. This is repeated \code{n_children} times.
-#'
-#' The \code{variation} parameter varies a single colour by adjusting the standard error of a beta distribution.
 #'
 #' @importFrom purrr map
 #' @importFrom dplyr %>%
@@ -305,7 +317,7 @@ evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation
     crossover(selected_parents[parents])
     }) %>%
     mutation(mutation_rate = mutation_rate, variation_parameter = variation) %>%
-    map(~get_pal_order(.x))
+    map(~sort_palette(.x))
   names(evolved) <- generate_palette_name(n_children)
   evolved
 }
@@ -376,6 +388,9 @@ palette_box <-  function(clear = FALSE) {
 #'
 #' @param n Number of names to generate.
 #'
+#' @details This function randomly draws an adjective and a food related word from a dictionary The name is assigned to a newly generated
+#' palette. Palette name can be changed when saving.
+#'
 #' @return
 #' @export
 #'
@@ -385,10 +400,9 @@ palette_box <-  function(clear = FALSE) {
 #' @examples
 #' \dontrun{generate_palette_name(5)}
 generate_palette_name <- function(n) {
-  files <- list.files(system.file('extdata', package = 'evoPalette'), full.names = TRUE)
-  adjective <- read_rds(grep("adjectives", files, value = TRUE))
+  adjective <- read_rds(system.file('extdata/adjectives.rds', package = 'evoPalette'))
   adjective <- sample(adjective$word[adjective$type == "adjective"], n)
-  food <- read_rds(grep("food", files, value = TRUE))
+  food <- read_rds(system.file('extdata/food-words.rds', package = 'evoPalette'))
   food <- sample(food$food_word, n)
   to_title_case(paste(adjective, food))
 }

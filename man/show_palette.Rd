@@ -14,12 +14,12 @@ show_palette(pal, title = NULL, n = NULL, labels = FALSE,
 
 \item{n}{Number of colours to show. Defaults to \code{c(length(pal), 200)}.}
 
-\item{labels}{Adds number labels to the colour palette.}
+\item{labels}{Logical. Adds the hex label to the colour palette.}
 
 \item{n_continuous}{Number of colours from the palette the continuous gradient uses. Default 3.}
 }
 \description{
-plots a given discrete and continuous colour palettes
+plots a given discrete and continuous colour palette
 }
 \details{
 By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can set to more

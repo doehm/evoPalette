@@ -21,9 +21,7 @@ Takes a set of parent palettes and spawns a given number of children.
 }
 \details{
 It is possible to evolve only 1 selected parent. In this case crossover has no effect however random mutations can
-still occur and the variation parameter will generate slight variations of the parent. Useful for tweaking a chosen palette.
+still occur and the \code{variation} parameter will generate slight variations of the parent. Useful for tweaking a chosen palette.
 
 If selecting 3 or more parents, two are chosen at random to spawn a single child. This is repeated \code{n_children} times.
-
-The \code{variation} parameter varies a single colour by adjusting the standard error of a beta distribution.
 }

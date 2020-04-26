@@ -13,7 +13,7 @@ if(!exists("gallery")) {
 }
 gallery$current_palette <- NULL
 gallery$random <- TRUE
-sort_methods <- c("RGB", "HSV", "Both")
+sort_methods <- c("RGB", "HSV", "Both", "none", "normal")
 
 plot_palette <- function(pal, aesthetic = "fill") {
   if(is.character(pal)) pal <- list(pal)
@@ -32,6 +32,7 @@ plot_palette <- function(pal, aesthetic = "fill") {
           x = "Engine size (L)",
           fill = "Vehicle\nclass"
         ) +
+        theme_minimal() +
         theme(
           plot.title = element_text(hjust = 0.5, size = 18)
         )}) %>%
@@ -46,6 +47,7 @@ plot_palette <- function(pal, aesthetic = "fill") {
              y = "MPG on highway",
              colour = "Engine\nsize"
            ) +
+           theme_minimal() +
            theme(
              plot.title = element_text(hjust = 0.5, size = 18)
            )) %>%

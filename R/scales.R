@@ -14,7 +14,7 @@
 #' @importFrom grDevices colorRampPalette
 #'
 #' @examples
-evo_pal <- function(name, scale_type, reverse = FALSE, ...) {
+evo_pal <- function(name, scale_type = "d", reverse = FALSE, ...) {
   if(length(palette_box()) == 0) stop("palette box is empty. Run 'launch_evo_palette() to generate a palette")
   cols <- palette_box()[[name]]
   if(reverse) cols <- rev(cols)
@@ -54,7 +54,7 @@ evo_pal <- function(name, scale_type, reverse = FALSE, ...) {
 #' @importFrom stringr str_sub
 #'
 #' @examples
-scale_fill_evo <- function(name, scale_type, reverse = FALSE, ...) {
+scale_fill_evo <- function(name, scale_type = "d", reverse = FALSE, ...) {
   switch(
     str_sub(scale_type, 1, 1),
     d = ggplot2::discrete_scale("fill", "evo", evo_pal(name, scale_type, reverse = reverse, ...)),

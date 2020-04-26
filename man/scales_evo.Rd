@@ -6,9 +6,9 @@
 \alias{scale_colour_evo}
 \title{evoPalette palette function}
 \usage{
-evo_pal(name, scale_type, reverse = FALSE, ...)
+evo_pal(name, scale_type = "d", reverse = FALSE, ...)
 
-scale_fill_evo(name, scale_type, reverse = FALSE, ...)
+scale_fill_evo(name, scale_type = "d", reverse = FALSE, ...)
 
 scale_colour_evo(name, scale_type = "d", reverse = FALSE, ...)
 }

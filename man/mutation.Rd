@@ -9,19 +9,12 @@ mutation(parents, mutation_rate = 0.05, variation_parameter = 0.01)
 \arguments{
 \item{parents}{List of parents to apply the mutation step.}
 
-\item{mutation_rate}{Mutation rate. Numeric value between 0-1 representing the probability of mutation of a single gene.}
+\item{mutation_rate}{Mutation rate. Numeric value between 0-1 representing the probability of mutation of a single colour.}
 
-\item{variation_parameter}{Random variation applied to every gene. Numeric value between 0-1.}
+\item{variation_parameter}{Numeric value between 0-1. Random variation applied to every gene.}
 }
 \description{
 Applies the mutation step in the evolutionary algorithm
-}
-\details{
-A colour is converted to RGB and each value is randomly drawn from a beta distribution
-red, green or blue values on the 0-1 scale as the mean and approximate standard deviation of \code{variation_parameter}. In short smaller
-values are less variable and larger values more variable.
-
-The \code{mutation_rate} is the probability any given colour will be replaced with a completely random one.
 }
 \examples{
 \dontrun{
