@@ -8,14 +8,22 @@
 #'
 #' @rdname scales_evo
 #'
+#' @details the evoPalette app needs to be run and at least one palette saved to use the scale functions. The scales
+#' refer to the palette by name.
+#'
 #' @return
 #' @export
 #'
 #' @importFrom grDevices colorRampPalette
+#' @importFrom glue glue
 #'
 #' @examples
 evo_pal <- function(name, scale_type = "d", reverse = FALSE, ...) {
   if(length(palette_box()) == 0) stop("palette box is empty. Run 'launch_evo_palette() to generate a palette")
+  if(is.null(name)) {
+    name <- names(palette_box())[1]
+    message(glue("Note: No name provided. Selecting '{to_title_case(name)}' from palette_box()"))
+  }
   cols <- palette_box()[[name]]
   if(reverse) cols <- rev(cols)
   switch(
@@ -38,8 +46,6 @@ evo_pal <- function(name, scale_type = "d", reverse = FALSE, ...) {
 
 #' Scale fill aesthetic
 #'
-#' Generalises the scale aesthetics for evoPalettes
-#'
 #' @param name Name of palette in the palette box
 #' @param scale_type Discrete or continuous. Input \code{c} / \code{d}.
 #' @param reverse Logical. Reverse the palette?
@@ -54,7 +60,7 @@ evo_pal <- function(name, scale_type = "d", reverse = FALSE, ...) {
 #' @importFrom stringr str_sub
 #'
 #' @examples
-scale_fill_evo <- function(name, scale_type = "d", reverse = FALSE, ...) {
+scale_fill_evo <- function(name = NULL, scale_type = "d", reverse = FALSE, ...) {
   switch(
     str_sub(scale_type, 1, 1),
     d = ggplot2::discrete_scale("fill", "evo", evo_pal(name, scale_type, reverse = reverse, ...)),
@@ -65,8 +71,6 @@ scale_fill_evo <- function(name, scale_type = "d", reverse = FALSE, ...) {
 
 
 #' Scale colour aesthetic
-#'
-#' Generalises the scale aesthetics
 #'
 #' @inheritParams scale_fill_evo
 #'

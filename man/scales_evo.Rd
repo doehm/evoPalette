@@ -8,7 +8,7 @@
 \usage{
 evo_pal(name, scale_type = "d", reverse = FALSE, ...)
 
-scale_fill_evo(name, scale_type = "d", reverse = FALSE, ...)
+scale_fill_evo(name = NULL, scale_type = "d", reverse = FALSE, ...)
 
 scale_colour_evo(name, scale_type = "d", reverse = FALSE, ...)
 }
@@ -23,8 +23,8 @@ scale_colour_evo(name, scale_type = "d", reverse = FALSE, ...)
 }
 \description{
 Generates a colour palette function for a discrete or continuous scale
-
-Generalises the scale aesthetics for evoPalettes
-
-Generalises the scale aesthetics
+}
+\details{
+the evoPalette app needs to be run and at least one palette saved to use the scale functions. The scales
+refer to the palette by name.
 }

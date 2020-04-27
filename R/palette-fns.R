@@ -100,7 +100,7 @@ random_palette <- function(n_cols, n_palettes, feeling_lucky = FALSE) {
 #' @import dplyr
 #'
 palette_data <- {
-  # not using tidyverse syntax in order to pass the R CMD checks
+  # not using full tidyverse syntax in order to pass the R CMD checks
   evo_df <- readRDS(system.file("extdata/palettes.rds", package = "evoPalette"))
   pltr_df <- as_tibble(paletteer::palettes_d_names)
   pltr_df$name <- pltr_df$palette
