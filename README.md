@@ -45,6 +45,7 @@ is converging to a similar theme based on your selections, along with
 some variation of each individual colour and a chance of a completely
 random mutation. Selecting only a single parent is convenient to
 generate minor variations on a single palette to tweak the colours.
+Random names are given to each new palette.
 
 <center>
 
@@ -62,7 +63,8 @@ practice.
 </center>
 
 To save a palette, select the desired palette from the check box and
-click ‘save’. The palette is now accessible from
+click ‘save’. A box will appear giving the opportunity to change the
+palette name. The palette is now accessible from
 <code>palette\_box()</code> once the app is closed. You can save
 multiple palettes which will be collected in the palette box. The
 palette box will be refreshed when starting a new session so remember to
@@ -98,10 +100,11 @@ Select the parameters from the drop down in the menu.
   - Mutation rate - Each colour in the palette has a probability of
     random mutation equal to this value (default p = 0.05)
   - Mutation variation - Each colour will vary slightly around it’s
-    original value e.g. like a child not being the same height as either
-    of their parents.
-  - Load an existing palette from the global environment. Object should
-    be list, ideally with names.
+    original value.
+  - Load existing palettes from the global environment. Object should be
+    list, ideally with names i.e. the same format as
+    <code>palette\_box()</code>.
+  - Are you feeling lucky? Select for completely random colours.
 
 When you are happy with your selections, click ‘evolve’
 

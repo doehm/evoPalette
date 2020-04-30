@@ -54,7 +54,7 @@ Select one or more palettes that you like and think may work well together from 
 
 <center><img src='man/images/image-select.PNG' height = '350px'></center>
 
-The next generation of palettes will be created. Continue until you are happy with a palette.With each generation you'll notice how the palette is converging to a similar theme based on your selections, along with some variation of each individual colour and a chance of a completely random mutation. Selecting only a single parent is convenient to generate minor variations on a single palette to tweak the colours.
+The next generation of palettes will be created. Continue until you are happy with a palette.With each generation you'll notice how the palette is converging to a similar theme based on your selections, along with some variation of each individual colour and a chance of a completely random mutation. Selecting only a single parent is convenient to generate minor variations on a single palette to tweak the colours. Random names are given to each new palette.
 
 <center><img src='man/images/image2.PNG' height = '500px'></center>
 
@@ -62,7 +62,7 @@ Select 'Example: Fill aesthetic' to see how the palette works in practice.
 
 <center><img src='man/images/image2-fill.PNG' height = '500px'></center>
 
-To save a palette, select the desired palette from the check box and click 'save'. The palette is now accessible from <code>palette_box()</code> once the app is closed. You can save multiple palettes which will be collected in the palette box. The palette box will be refreshed when starting a new session so remember to save it to disk.
+To save a palette, select the desired palette from the check box and click 'save'. A box will appear giving the opportunity to change the palette name. The palette is now accessible from <code>palette_box()</code> once the app is closed. You can save multiple palettes which will be collected in the palette box. The palette box will be refreshed when starting a new session so remember to save it to disk.
 
 <center><img src='man/images/save1a.png' height = '500px'></center>
 
@@ -89,8 +89,9 @@ Select the parameters from the drop down in the menu.
 * Number of colours to generate for each palette
 * Number of palettes to generate at each evolution
 * Mutation rate - Each colour in the palette has a probability of random mutation equal to this value (default p = 0.05)
-* Mutation variation - Each colour will vary slightly around it's original value e.g. like a child not being the same height as either of their parents.
+* Mutation variation - Each colour will vary slightly around it's original value.
 * Load existing palettes from the global environment. Object should be list, ideally with names i.e. the same format as <code>palette_box()</code>.
+* Are you feeling lucky? Select for completely random colours.
 
 When you are happy with your selections, click 'evolve'
 
