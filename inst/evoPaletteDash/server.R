@@ -27,7 +27,6 @@ function(input, output) {
     })
 
     pals <- reactive({
-        # map(pals_gen(), ~sort_palette(.x, tolower(input$sortby)))
         map(pals_gen(), ~sort_palette(.x))
     })
 
