@@ -56,6 +56,8 @@ function(input, output) {
 
 
 
+
+
     # render palettes
     output$palette_plots <- renderPlot({
         palettes()
@@ -69,6 +71,9 @@ function(input, output) {
     output$palette_examples_colour <- renderPlot({
         palette_examples_colour()
     })
+
+
+
 
 
 

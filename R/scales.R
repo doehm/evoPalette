@@ -8,7 +8,7 @@
 #'
 #' @rdname scales_evo
 #'
-#' @details the evoPalette app needs to be run and at least one palette saved to use the scale functions. The scales
+#' @details The evoPalette app needs to be run and at least one palette saved to use the scale functions. The scales
 #' refer to the palette by name.
 #'
 #' @return
@@ -47,7 +47,7 @@ evo_pal <- function(name, scale_type = "d", reverse = FALSE, ...) {
 #' Scale fill aesthetic
 #'
 #' @param name Name of palette in the palette box
-#' @param scale_type Discrete or continuous. Input \code{c} / \code{d}.
+#' @param scale_type Discrete or continuous. Input \code{d} / \code{c}.
 #' @param reverse Logical. Reverse the palette?
 #' @param ... Dots
 #'

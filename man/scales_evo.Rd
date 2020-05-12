@@ -15,7 +15,7 @@ scale_colour_evo(name, scale_type = "d", reverse = FALSE, ...)
 \arguments{
 \item{name}{Name of palette in the palette box}
 
-\item{scale_type}{Discrete or continuous. Input \code{c} / \code{d}.}
+\item{scale_type}{Discrete or continuous. Input \code{d} / \code{c}.}
 
 \item{reverse}{Logical. Reverse the palette?}
 
@@ -25,6 +25,6 @@ scale_colour_evo(name, scale_type = "d", reverse = FALSE, ...)
 Generates a colour palette function for a discrete or continuous scale
 }
 \details{
-the evoPalette app needs to be run and at least one palette saved to use the scale functions. The scales
+The evoPalette app needs to be run and at least one palette saved to use the scale functions. The scales
 refer to the palette by name.
 }

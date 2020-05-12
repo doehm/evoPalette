@@ -4,7 +4,7 @@
 \name{palette_data}
 \alias{palette_data}
 \title{Read palette data}
-\format{An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 1455 rows and 5 columns.}
+\format{An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 1454 rows and 5 columns.}
 \usage{
 palette_data
 }
