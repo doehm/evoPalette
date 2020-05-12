@@ -108,6 +108,21 @@ Select the parameters from the drop down in the menu.
 
 When you are happy with your selections, click ‘evolve’
 
+## Scales
+
+The generated colour palettes can easily be added to ggplots using the
+scale functions  and .
+
+``` r
+library(ggplot2)
+mpg %>% 
+  ggplot(aes(x = displ, fill = class)) +
+  geom_histogram() +
+  scale_fill_evo("Striking Fight")
+```
+
+If no name is given the first palette in the list will be used.
+
 ## Acknowledgments
 
 The package uses [paletteer](https://github.com/EmilHvitfeldt/paletteer)
