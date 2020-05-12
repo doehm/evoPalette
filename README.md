@@ -121,6 +121,12 @@ mpg %>%
   scale_fill_evo("Striking Fight")
 ```
 
+<center>
+
+<img src='man/images/scale-fill.png' height = '500px'>
+
+</center>
+
 If no name is given the first palette in the list will be used.
 
 ## Acknowledgments
