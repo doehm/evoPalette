@@ -32,11 +32,11 @@ evo_pal <- function(name, scale_type = "d", reverse = FALSE, ...) {
       if(n > length(cols)){
         colorRampPalette(cols)(n)
       }else{
-        cols[1:n]
+        cols[seq(1, length(cols), length = n)]
       }
     },
     c = function(n) {
-      colorRampPalette(cols[seq(1, length(cols), 3)])(200)[floor(n*199)+1]
+      colorRampPalette(cols[seq(1, length(cols), length = 3)])(200)[floor(n*199)+1]
     }
   )
 }

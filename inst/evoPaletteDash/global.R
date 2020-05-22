@@ -13,7 +13,6 @@ if(!exists("gallery")) {
 }
 gallery$current_palette <- NULL
 gallery$random <- TRUE
-sort_methods <- c("RGB", "HSV", "Both", "none", "normal")
 
 plot_palette <- function(pal, aesthetic = "fill") {
   if(is.character(pal)) pal <- list(pal)
@@ -40,7 +39,7 @@ plot_palette <- function(pal, aesthetic = "fill") {
   }else{
     g <- ggplot(ggplot2::mpg, aes(x = ggplot2::mpg$displ, y = ggplot2::mpg$hwy, colour = ggplot2::mpg$displ)) + geom_point(size = 7)
     imap(pal, ~g +
-           scale_colour_gradientn(colours = colorRampPalette(.x[seq(1, length(.x), 3)])(200)) +
+           scale_colour_gradientn(colours = colorRampPalette(.x[seq(1, length(.x), length = 3)])(200)) +
            labs(
              title = to_title_case(.y),
              x = "Engine size (L)",
