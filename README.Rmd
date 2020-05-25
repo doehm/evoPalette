@@ -52,19 +52,23 @@ To generate the first set of palettes, click 'evolve'.
 
 Select one or more palettes that you like and think may work well together from the check box and click 'evolve'. 
 
-<center><img src='man/images/image-select.PNG' height = '350px'></center>
+<center><img src='man/images/selected-palettes.PNG' height = '350px'></center>
 
-The next generation of palettes will be created. Continue until you are happy with a palette.With each generation you'll notice how the palette is converging to a similar theme based on your selections, along with some variation of each individual colour and a chance of a completely random mutation. Selecting only a single parent is convenient to generate minor variations on a single palette to tweak the colours. Random names are given to each new palette.
+The next generation of palettes will be created. Continue until you are happy with a palette.With each generation you'll notice how the palette is converging to a similar theme based on your selections, along with some variation of each individual colour and a chance of a completely random mutation. 
 
 <center><img src='man/images/image2.PNG' height = '500px'></center>
 
+Selecting only a single parent is convenient to generate minor variations on a single palette to tweak the colours. Random names are given to each new palette.
+
+<center><img src='man/images/image3.PNG' height = '500px'></center>
+
 Select 'Example: Fill aesthetic' to see how the palette works in practice.
 
-<center><img src='man/images/image2-fill.PNG' height = '500px'></center>
+<center><img src='man/images/scale-fill.PNG' height = '500px'></center>
 
 To save a palette, select the desired palette from the check box and click 'save'. A box will appear giving the opportunity to change the palette name. The palette is now accessible from <code>palette_box()</code> once the app is closed. You can save multiple palettes which will be collected in the palette box. The palette box will be refreshed when starting a new session so remember to save it to disk.
 
-<center><img src='man/images/save1a.png' height = '500px'></center>
+<center><img src='man/images/saved-palette-mc.png' height = '500px'></center>
 
 ```{r, echo = FALSE, eval = TRUE}
 load(normalizePath('./man/images/palette-box.Rdata'))
@@ -106,10 +110,10 @@ library(ggplot2)
 mpg %>% 
   ggplot(aes(x = displ, fill = class)) +
   geom_histogram() +
-  scale_fill_evo("Striking Fight")
+  scale_fill_evo("immaterial_pause")
 ```
 
-<center><img src='man/images/scale-fill.png' height = '500px'></center>
+<center><img src='man/images/scale-fill-ip.png' height = '500px'></center>
 
 If no name is given the first palette in the list will be used.
 

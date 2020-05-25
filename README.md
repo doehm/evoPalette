@@ -35,7 +35,7 @@ together from the check box and click ‘evolve’.
 
 <center>
 
-<img src='man/images/image-select.PNG' height = '350px'>
+<img src='man/images/selected-palettes.PNG' height = '350px'>
 
 </center>
 
@@ -43,13 +43,21 @@ The next generation of palettes will be created. Continue until you are
 happy with a palette.With each generation you’ll notice how the palette
 is converging to a similar theme based on your selections, along with
 some variation of each individual colour and a chance of a completely
-random mutation. Selecting only a single parent is convenient to
-generate minor variations on a single palette to tweak the colours.
-Random names are given to each new palette.
+random mutation.
 
 <center>
 
 <img src='man/images/image2.PNG' height = '500px'>
+
+</center>
+
+Selecting only a single parent is convenient to generate minor
+variations on a single palette to tweak the colours. Random names are
+given to each new palette.
+
+<center>
+
+<img src='man/images/image3.PNG' height = '500px'>
 
 </center>
 
@@ -58,7 +66,7 @@ practice.
 
 <center>
 
-<img src='man/images/image2-fill.PNG' height = '500px'>
+<img src='man/images/scale-fill.PNG' height = '500px'>
 
 </center>
 
@@ -72,14 +80,17 @@ save it to disk.
 
 <center>
 
-<img src='man/images/save1a.png' height = '500px'>
+<img src='man/images/saved-palette-mc.png' height = '500px'>
 
 </center>
 
 ``` r
 palette_box()
-#> $`Striking Fight`
-#> [1] "#169CAF" "#283A7B" "#87B9BD" "#F1B9AA" "#F77DA9"
+#> $musty_captain
+#> [1] "#43AE9C" "#045B9E" "#49357E" "#892B78" "#A83C55" "#AC537B"
+#> 
+#> $immaterial_pause
+#> [1] "#A43B56" "#74245C" "#554980" "#9F5C7E" "#419E8C" "#065980"
 ```
 
 To begin again, deselect all palettes and click ‘evolve’. A new set of
@@ -118,12 +129,12 @@ library(ggplot2)
 mpg %>% 
   ggplot(aes(x = displ, fill = class)) +
   geom_histogram() +
-  scale_fill_evo("Striking Fight")
+  scale_fill_evo("immaterial_pause")
 ```
 
 <center>
 
-<img src='man/images/scale-fill.png' height = '500px'>
+<img src='man/images/scale-fill-ip.png' height = '500px'>
 
 </center>
 
