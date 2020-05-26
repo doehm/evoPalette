@@ -64,7 +64,7 @@ Selecting only a single parent is convenient to generate minor variations on a s
 
 Select 'Example: Fill aesthetic' to see how the palette works in practice.
 
-<center><img src='man/images/scale-fill-multi.png' height = '500px'></center>
+<center><img src='man/images/scale-fill-multi.PNG' height = '500px'></center>
 
 To save a palette, select the desired palette from the check box and click 'save'. A box will appear giving the opportunity to change the palette name. The palette is now accessible from <code>palette_box()</code> once the app is closed. You can save multiple palettes which will be collected in the palette box. The palette box will be refreshed when starting a new session so remember to save it to disk.
 
@@ -113,7 +113,7 @@ mpg %>%
   scale_fill_evo("striking_almondmilk")
 ```
 
-<center><img src='man/images/scale-fill-single.PNG' height = '500px'></center>
+<center><img src='man/images/scale-fill-single.png' height = '500px'></center>
 
 If no name is given the first palette in the list will be used.
 

@@ -66,7 +66,7 @@ practice.
 
 <center>
 
-<img src='man/images/scale-fill-multi.png' height = '500px'>
+<img src='man/images/scale-fill-multi.PNG' height = '500px'>
 
 </center>
 
@@ -132,7 +132,7 @@ mpg %>%
 
 <center>
 
-<img src='man/images/scale-fill-single.PNG' height = '500px'>
+<img src='man/images/scale-fill-single.png' height = '500px'>
 
 </center>
 
