@@ -35,7 +35,7 @@ together from the check box and click ‘evolve’.
 
 <center>
 
-<img src='man/images/selected-palettes.PNG' height = '350px'>
+<img src='man/images/selected.PNG' height = '350px'>
 
 </center>
 
@@ -66,7 +66,7 @@ practice.
 
 <center>
 
-<img src='man/images/scale-fill.png' height = '500px'>
+<img src='man/images/scale-fill-multi.png' height = '500px'>
 
 </center>
 
@@ -80,17 +80,14 @@ save it to disk.
 
 <center>
 
-<img src='man/images/saved-palette-mc.PNG' height = '500px'>
+<img src='man/images/saved.PNG' height = '500px'>
 
 </center>
 
 ``` r
 palette_box()
-#> $musty_captain
-#> [1] "#43AE9C" "#045B9E" "#49357E" "#892B78" "#A83C55" "#AC537B"
-#> 
-#> $immaterial_pause
-#> [1] "#A43B56" "#74245C" "#554980" "#9F5C7E" "#419E8C" "#065980"
+#> $striking_almondmilk
+#> [1] "#F2EA91" "#5B95AA" "#2B78A7" "#3C4519" "#665859" "#BB6A70"
 ```
 
 To begin again, deselect all palettes and click ‘evolve’. A new set of
@@ -115,7 +112,8 @@ Select the parameters from the drop down in the menu.
   - Load existing palettes from the global environment. Object should be
     list, ideally with names i.e. the same format as
     <code>palette\_box()</code>.
-  - Are you feeling lucky? Select for completely random colours.
+  - Are you feeling lucky? Select for generating palettes from
+    completely random colours.
 
 When you are happy with your selections, click ‘evolve’
 
@@ -129,12 +127,12 @@ library(ggplot2)
 mpg %>% 
   ggplot(aes(x = displ, fill = class)) +
   geom_histogram() +
-  scale_fill_evo("immaterial_pause")
+  scale_fill_evo("striking_almondmilk")
 ```
 
 <center>
 
-<img src='man/images/scale-fill-ip.PNG' height = '500px'>
+<img src='man/images/scale-fill-single.PNG' height = '500px'>
 
 </center>
 
