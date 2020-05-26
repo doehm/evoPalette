@@ -64,11 +64,11 @@ Selecting only a single parent is convenient to generate minor variations on a s
 
 Select 'Example: Fill aesthetic' to see how the palette works in practice.
 
-<center><img src='man/images/scale-fill.PNG' height = '500px'></center>
+<center><img src='man/images/scale-fill.png' height = '500px'></center>
 
 To save a palette, select the desired palette from the check box and click 'save'. A box will appear giving the opportunity to change the palette name. The palette is now accessible from <code>palette_box()</code> once the app is closed. You can save multiple palettes which will be collected in the palette box. The palette box will be refreshed when starting a new session so remember to save it to disk.
 
-<center><img src='man/images/saved-palette-mc.png' height = '500px'></center>
+<center><img src='man/images/saved-palette-mc.PNG' height = '500px'></center>
 
 ```{r, echo = FALSE, eval = TRUE}
 load(normalizePath('./man/images/palette-box.Rdata'))
@@ -113,7 +113,7 @@ mpg %>%
   scale_fill_evo("immaterial_pause")
 ```
 
-<center><img src='man/images/scale-fill-ip.png' height = '500px'></center>
+<center><img src='man/images/scale-fill-ip.PNG' height = '500px'></center>
 
 If no name is given the first palette in the list will be used.
 

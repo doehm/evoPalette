@@ -66,7 +66,7 @@ practice.
 
 <center>
 
-<img src='man/images/scale-fill.PNG' height = '500px'>
+<img src='man/images/scale-fill.png' height = '500px'>
 
 </center>
 
@@ -80,7 +80,7 @@ save it to disk.
 
 <center>
 
-<img src='man/images/saved-palette-mc.png' height = '500px'>
+<img src='man/images/saved-palette-mc.PNG' height = '500px'>
 
 </center>
 
@@ -134,7 +134,7 @@ mpg %>%
 
 <center>
 
-<img src='man/images/scale-fill-ip.png' height = '500px'>
+<img src='man/images/scale-fill-ip.PNG' height = '500px'>
 
 </center>
 
