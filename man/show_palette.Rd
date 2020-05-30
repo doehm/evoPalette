@@ -5,7 +5,7 @@
 \title{Show palette}
 \usage{
 show_palette(pal, title = NULL, n = NULL, labels = FALSE,
-  n_continuous = 3)
+  n_continuous = 3, title_size = 18)
 }
 \arguments{
 \item{pal}{Palette. Character vector.}

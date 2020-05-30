@@ -13,6 +13,9 @@ if(!exists("gallery")) {
 }
 gallery$current_palette <- NULL
 gallery$random <- TRUE
+gallery$generation <- 0
+gallery$history <- list()
+gallery$parent_history <- list()
 
 plot_palette <- function(pal, aesthetic = "fill") {
   if(is.character(pal)) pal <- list(pal)

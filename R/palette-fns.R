@@ -91,7 +91,7 @@ random_palette <- function(n_cols, n_palettes, feeling_lucky = FALSE) {
 
 #' Read palette data
 #'
-#' Pulls together evoPalette and paletteer palettes ready to sample
+#' Pulls together evoPalette and paletteer palettes ready for sampling
 #'
 #' @return
 #' @export
@@ -111,7 +111,7 @@ palette_data <- {
       pltr_df %>%
         mutate(palette = purrr::map2(pltr_df$package, pltr_df$name, ~as.character(paletteer::paletteer_d(glue("{.x}::{.y}")))))
     ) %>%
-    select(1, 5, 2, 4, 3)
+    select(name, package, category, n_cols, palette)
 }
 
 
@@ -192,7 +192,7 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #'     map(~show_palette(.x)) %>%
 #'     wrap_plots()
 #'     }
-show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuous = 3){
+show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuous = 3, title_size = 18){
 
   if(is.null(n)) n <- c(length(pal), 200)
 
@@ -218,7 +218,7 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
     g <- g +
       labs(title = to_title_case(title)) +
       theme(
-        plot.title = element_text(hjust = 0.5, size = 18)
+        plot.title = element_text(hjust = 0.5, size = title_size)
       )
   }
 

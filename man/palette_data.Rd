@@ -9,6 +9,6 @@
 palette_data
 }
 \description{
-Pulls together evoPalette and paletteer palettes ready to sample
+Pulls together evoPalette and paletteer palettes ready for sampling
 }
 \keyword{datasets}

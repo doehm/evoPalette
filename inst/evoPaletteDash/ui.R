@@ -1,5 +1,5 @@
 
-dashboardPage(skin = "yellow",
+dashboardPage(skin = "black",
               dashboardHeader(title = "evoPalette"),
               dashboardSidebar(
                   sidebarMenu(
@@ -24,11 +24,14 @@ dashboardPage(skin = "yellow",
                       menuItem("Example: Colour aesthetic", tabName = "palette_examples_c", icon = icon("chevron-circle-right")),
                       menuItem("Parameters", tabName = "config",
                                numericInput("n_cols", "Number of colours", value = 6, min = 3, max = 20),
-                               numericInput("n_palettes", "Number of Palettes", value = 6, min = 2, max = 20),
+                               numericInput("n_palettes", "Number of Palettes", value = 9, min = 2, max = 20),
                                numericInput("mutation_rate", "Mutation rate (0 - 1)", 0.05),
                                numericInput("variation", "Variation (0 - 1)", 0.01),
                                textInput("load_palette", "Load palettes (name of list)"),
                                checkboxInput("feeling_lucky", "Feeling lucky", FALSE)
+                               ),
+                      menuItem("Parents of current generation", tabName = "parents_tab",
+                               plotOutput("parents_of", height = 180, width = "100%")
                                ),
                       uiOutput("selected_parents_ui"),
                       actionButton("evolve_button", "Evolve"),
@@ -41,7 +44,7 @@ dashboardPage(skin = "yellow",
                       ),
                       useShinyalert(),
                       actionButton("save_palette", "Save"),
-                      plotOutput("saved_pal", height = 100, width = '100%')
+                      plotOutput("saved_pal", height = 90, width = '100%')
                   )
               ),
               dashboardBody(
