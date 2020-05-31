@@ -35,7 +35,7 @@ together from the check box and click ‘evolve’.
 
 <center>
 
-<img src='man/images/selected.PNG' height = '350px'>
+<img src='man/images/selected.png' height = '350px'>
 
 </center>
 
@@ -66,7 +66,7 @@ practice.
 
 <center>
 
-<img src='man/images/scale-fill-multi3.PNG' height = '500px'>
+<img src='man/images/scale-fill-multi3.png' height = '500px'>
 
 </center>
 
