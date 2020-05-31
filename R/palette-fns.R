@@ -175,6 +175,7 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #' @param title To add a title to the plot. Default \code{NULL}.
 #' @param labels Logical. Adds the hex label to the colour palette.
 #' @param n_continuous Number of colours from the palette the continuous gradient uses. Default 3.
+#' @param title_size Font size of title
 #'
 #' @details By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can set to more
 #' or less if desired.
@@ -250,7 +251,7 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #' @export
 #'
 #' @importFrom grDevices col2rgb rgb2hsv
-#' @importFrom stats dist
+#' @importFrom stats dist sd
 #'
 #' @examples
 #' \dontrun{

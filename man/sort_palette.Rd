@@ -4,7 +4,7 @@
 \alias{sort_palette}
 \title{Palette colour order}
 \usage{
-sort_palette(pal, rgb_hsv = "both")
+sort_palette(pal, rgb_hsv = "choose")
 }
 \arguments{
 \item{pal}{Palette. Character vector of hex codes.}

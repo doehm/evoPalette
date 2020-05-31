@@ -17,6 +17,8 @@ show_palette(pal, title = NULL, n = NULL, labels = FALSE,
 \item{labels}{Logical. Adds the hex label to the colour palette.}
 
 \item{n_continuous}{Number of colours from the palette the continuous gradient uses. Default 3.}
+
+\item{title_size}{Font size of title}
 }
 \description{
 plots a given discrete and continuous colour palette
