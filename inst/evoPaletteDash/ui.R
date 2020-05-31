@@ -3,6 +3,7 @@ dashboardPage(skin = "black",
               dashboardHeader(title = "evoPalette"),
               dashboardSidebar(
                   sidebarMenu(
+                    tags$style(type = "text/css", "#parents_of {height: calc(180px) !important;}"),
                       HTML(
                           "<p><br /1>
                           To begin select the number of colours<br />
@@ -31,7 +32,7 @@ dashboardPage(skin = "black",
                                checkboxInput("feeling_lucky", "Feeling lucky", FALSE)
                                ),
                       menuItem("Parents of current generation", tabName = "parents_tab",
-                               plotOutput("parents_of", height = 180, width = "100%")
+                               plotOutput("parents_of", width = "100%")
                                ),
                       uiOutput("selected_parents_ui"),
                       actionButton("evolve_button", "Evolve"),

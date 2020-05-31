@@ -13,9 +13,6 @@ knitr::opts_chunk$set(
   eval = FALSE,
   fig.height = 5
 )
-# knitr::opts_knit$set(
-#   root.dir = normalizePath("..")
-#   )
 
 library(png)
 library(grid)
@@ -64,7 +61,7 @@ Selecting only a single parent is convenient to generate minor variations on a s
 
 Select 'Example: Fill aesthetic' to see how the palette works in practice.
 
-<center><img src='man/images/scale-fill-multi.PNG' height = '500px'></center>
+<center><img src='man/images/scale-fill-multi3.PNG' height = '500px'></center>
 
 To save a palette, select the desired palette from the check box and click 'save'. A box will appear giving the opportunity to change the palette name. The palette is now accessible from <code>palette_box()</code> once the app is closed. You can save multiple palettes which will be collected in the palette box. The palette box will be refreshed when starting a new session so remember to save it to disk.
 
@@ -110,10 +107,10 @@ library(ggplot2)
 mpg %>% 
   ggplot(aes(x = displ, fill = class)) +
   geom_histogram() +
-  scale_fill_evo("striking_almondmilk")
+  scale_fill_evo("instructive_customers")
 ```
 
-<center><img src='man/images/scale-fill-single.png' height = '500px'></center>
+<center><img src='man/images/scale-fill-single.svg' height = '500px'></center>
 
 If no name is given the first palette in the list will be used.
 

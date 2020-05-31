@@ -262,15 +262,30 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 #'     imap(~show_palette(.x, .y)) %>%
 #'     wrap_plots()
 #' }
-sort_palette <- function(pal, rgb_hsv = "both"){
-  if(rgb_hsv == "none") return(pal)
-  if(rgb_hsv == "normal") return(sort(pal))
+sort_palette <- function(pal, rgb_hsv = "choose"){
+
+  if(!rgb_hsv %in% c("rgb", "hsv", "both", "normal", "none", "choose")) stop("valid methods for rgb_hsv: rgb, hsv, both, normal, none.")
+
   .rgb <- t(col2rgb(pal))/255
+
+  if(rgb_hsv == "choose") {
+    x_array <- cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])), l = sqrt(0.241*.rgb[,1] + 0.691*.rgb[,2] + 0.068*.rgb[,3]))
+    x_metrics <- apply(x_array, 2, sd)
+    x_rgb <- sum(x_metrics[1:3])
+    x_hsv <- sum(x_metrics[4:6])
+    rgb_hsv <- ifelse(x_rgb > x_hsv, "rgb", "hsv")
+  }else if(rgb_hsv == "none") {
+    return(pal)
+  }else if(rgb_hsv == "normal") {
+    return(sort(pal))
+  }
+
   col_vector <- switch(rgb_hsv,
     rgb = .rgb,
     hsv = t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])),
     both = cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])), l = sqrt(0.241*.rgb[,1] + 0.691*.rgb[,2] + 0.068*.rgb[,3]))
   )
+
   d <- as.matrix(dist(col_vector))
   id <- sort(apply(col_vector, 1, min), decreasing = TRUE, index.return = TRUE)$ix
   begin <- id[1]

@@ -66,7 +66,7 @@ practice.
 
 <center>
 
-<img src='man/images/scale-fill-multi.PNG' height = '500px'>
+<img src='man/images/scale-fill-multi3.PNG' height = '500px'>
 
 </center>
 
@@ -86,8 +86,8 @@ save it to disk.
 
 ``` r
 palette_box()
-#> $striking_almondmilk
-#> [1] "#F2EA91" "#5B95AA" "#2B78A7" "#3C4519" "#665859" "#BB6A70"
+#> $instructive_customers
+#> [1] "#C7B6C8" "#74B6BA" "#7783C4" "#B56D4E" "#F28E47" "#FCE269"
 ```
 
 To begin again, deselect all palettes and click ‘evolve’. A new set of
@@ -127,12 +127,12 @@ library(ggplot2)
 mpg %>% 
   ggplot(aes(x = displ, fill = class)) +
   geom_histogram() +
-  scale_fill_evo("striking_almondmilk")
+  scale_fill_evo("instructive_customers")
 ```
 
 <center>
 
-<img src='man/images/scale-fill-single.png' height = '500px'>
+<img src='man/images/scale-fill-single.svg' height = '500px'>
 
 </center>
 

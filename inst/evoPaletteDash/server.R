@@ -82,6 +82,7 @@ function(input, output) {
         if(gallery$generation > 1) {
             t <- gallery$generation-1
             parents <- gallery$parent_history[[t+1]]
+            gallery$n_parents <- length(parents)
             gallery$history[[t]][parents] %>%
                 imap(~show_palette(.x, title = .y, title_size = 10)) %>%
                 wrap_plots(ncol = 1)

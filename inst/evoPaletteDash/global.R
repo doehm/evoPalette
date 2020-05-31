@@ -16,6 +16,7 @@ gallery$random <- TRUE
 gallery$generation <- 0
 gallery$history <- list()
 gallery$parent_history <- list()
+gallery$n_parents <- 0
 
 plot_palette <- function(pal, aesthetic = "fill") {
   if(is.character(pal)) pal <- list(pal)
