@@ -142,5 +142,5 @@ If no name is given the first palette in the list will be used.
 
 The package uses [paletteer](https://github.com/EmilHvitfeldt/paletteer)
 to initialise the palette selection. It is a collection of colour
-palettes that exist across multiple packages in R. This package would
-not work as well without it’s help.
+palettes that exist across multiple packages in R and are used as the
+initial starting palettes.

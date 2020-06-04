@@ -4,6 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -23,7 +24,6 @@ library(evoPalette)
 
 
 
-
 # evoPalette
 
 evoPalette allows for the discovery and generation of new colour palettes for R. Taking user input it uses a genetic algorithm to spawn new palettes. This can be repeated as many times as needed to generate the desired palette.
@@ -34,6 +34,7 @@ evoPalette allows for the discovery and generation of new colour palettes for R.
 ```{r}
 devtools::install_github("doehm/evoPalette")
 ```
+
 
 ## Getting started
 
@@ -117,4 +118,4 @@ If no name is given the first palette in the list will be used.
 
 ## Acknowledgments 
 
-The package uses [paletteer](https://github.com/EmilHvitfeldt/paletteer) to initialise the palette selection. It is a collection of colour palettes that exist across multiple packages in R. This package would not work as well without it's help.
+The package uses [paletteer](https://github.com/EmilHvitfeldt/paletteer) to initialise the palette selection. It is a collection of colour palettes that exist across multiple packages in R and are used as the initial starting palettes.
