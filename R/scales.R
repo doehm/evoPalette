@@ -36,7 +36,7 @@ evo_pal <- function(name, scale_type = "d", reverse = FALSE, ...) {
       }
     },
     c = function(n) {
-      colorRampPalette(cols[seq(1, length(cols), length = 3)])(200)[floor(n*199)+1]
+      colorRampPalette(cols[seq(1, length(cols), length = 2)])(200)[floor(n*199)+1]
     }
   )
 }

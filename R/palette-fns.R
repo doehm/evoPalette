@@ -193,7 +193,7 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #'     map(~show_palette(.x)) %>%
 #'     wrap_plots()
 #'     }
-show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuous = 3, title_size = 18){
+show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuous = 2, title_size = 18){
 
   if(is.list(pal) & is.null(title)) {
     title <- names(pal)
