@@ -195,6 +195,11 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #'     }
 show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuous = 3, title_size = 18){
 
+  if(is.list(pal) & is.null(title)) {
+    title <- names(pal)
+    pal <- pal[[1]]
+  }
+
   if(is.null(n)) n <- c(length(pal), 200)
 
   x <- seq(0, 1, length = n[1]+1)
