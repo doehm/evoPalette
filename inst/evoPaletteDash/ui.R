@@ -26,6 +26,7 @@ dashboardPage(skin = "black",
                       menuItem("Parameters", tabName = "config",
                                numericInput("n_cols", "Number of colours", value = 6, min = 3, max = 20),
                                numericInput("n_palettes", "Number of Palettes", value = 9, min = 2, max = 20),
+                               numericInput("n_sat_levels", "Number of saturation levels", value = 5, min = 2, max = 10),
                                numericInput("mutation_rate", "Mutation rate (0 - 1)", 0.05),
                                numericInput("variation", "Variation (0 - 1)", 0.01),
                                textInput("load_palette", "Load palettes (name of list)"),
@@ -60,6 +61,10 @@ dashboardPage(skin = "black",
                       ),
                       tabItem(tabName = "palette_examples_d",
                               fluidRow(
+                                  absolutePanel(
+                                    uiOutput('saturation_slider'),
+                                    draggable = TRUE
+                                  ),
                                   plotOutput("palette_examples")
                               )
                       ),

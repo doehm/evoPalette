@@ -9,6 +9,9 @@ crossover(parents)
 \arguments{
 \item{parents}{List of two palettes of the same length.}
 }
+\value{
+
+}
 \description{
 Implements the crossover step in the evolutionary algorithm.
 }

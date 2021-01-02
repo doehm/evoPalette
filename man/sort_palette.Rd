@@ -11,6 +11,9 @@ sort_palette(pal, rgb_hsv = "choose")
 
 \item{rgb_hsv}{Sort by either rgb, hsv, both, none or normal. See details.}
 }
+\value{
+
+}
 \description{
 Sorts colour palette by hue.
 }

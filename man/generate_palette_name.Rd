@@ -9,6 +9,9 @@ generate_palette_name(n)
 \arguments{
 \item{n}{Number of names to generate.}
 }
+\value{
+
+}
 \description{
 Generates a palette name for evolved palettes. Names are generated from a random combination of adjectives and food related words.
 }

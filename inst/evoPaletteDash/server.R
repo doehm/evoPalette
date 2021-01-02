@@ -41,7 +41,7 @@ function(input, output) {
         gallery$generation <- gallery$generation + 1
 
         # store palette hstory
-        gallery$history[[gallery$generation]] <-gallery$current_palette
+        gallery$history[[gallery$generation]] <- gallery$current_palette
 
         # store parent history
         gallery$parent_history[[gallery$generation]] <- input$selected_parents_ui
@@ -54,14 +54,13 @@ function(input, output) {
         map(pals_gen(), ~sort_palette(.x))
     })
 
-
     palettes <- reactive({
-        show_palettes <- imap(pals(), ~show_palette(.x, title = .y))
+        show_palettes <- imap(pals(), ~show_palette(.x, title = .y, n_sat = input$n_sat_levels))
         wrap_plots(show_palettes)
     })
 
     palette_examples_fill <- reactive({
-        plot_palette(pals())
+        plot_palette(pals(), saturation = input$saturation_slider)
     })
 
     palette_examples_colour <- reactive({
@@ -133,6 +132,10 @@ function(input, output) {
 
     output$parents_of <- renderPlot({
         parents()
+    })
+
+    output$saturation_slider <- renderUI({
+        sliderInput('saturation_slider', 'Saturation', min = 0, max = 1, value = 1)
     })
 
 }

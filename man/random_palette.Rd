@@ -13,6 +13,9 @@ random_palette(n_cols, n_palettes, feeling_lucky = FALSE)
 
 \item{feeling_lucky}{If \code{TRUE} generates completely random colours for the palette. Default FALSE}
 }
+\value{
+
+}
 \description{
 Selects a random palette either from an exisiting set of palettes or completely random.
 }

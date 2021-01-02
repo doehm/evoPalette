@@ -9,6 +9,9 @@ palette_box(clear = FALSE)
 \arguments{
 \item{clear}{Set to TRUE to clear the palette box. Default FALSE}
 }
+\value{
+
+}
 \description{
 Opens the palette box containing saved palettes from the evoPalette Shiny app
 }
@@ -16,4 +19,7 @@ Opens the palette box containing saved palettes from the evoPalette Shiny app
 Any palettes saved while using the shiny app are saved here. Opening the box displays a list of the saved palettes. More
 Palettes will be saved here everytime the app is used with a session. Remember to save the palette box to disk before closing the
 session to permanently save the palette.
+}
+\examples{
+\dontrun{}
 }

@@ -1,6 +1,3 @@
-
-
-
 #' Crossover
 #'
 #' Implements the crossover step in the evolutionary algorithm.
@@ -170,12 +167,14 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #'
 #' plots a given discrete and continuous colour palette
 #'
-#' @param n Number of colours to show. Defaults to \code{c(length(pal), 200)}.
 #' @param pal Palette. Character vector.
 #' @param title To add a title to the plot. Default \code{NULL}.
+#' @param n Number of colours to show. Defaults to \code{c(length(pal), 200)}.
+#' @param n_sat Number of saturation levels
 #' @param labels Logical. Adds the hex label to the colour palette.
 #' @param n_continuous Number of colours from the palette the continuous gradient uses. Default 3.
 #' @param title_size Font size of title
+#' @param show_continuous Show continuous scale
 #'
 #' @details By default the continuous scale is set by taking 3 equally spaced colours along the colour palette. Can set to more
 #' or less if desired.
@@ -183,6 +182,7 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #' @return
 #' @export
 #'
+#' @import tidyr
 #' @import ggplot2
 #' @import snakecase
 #' @importFrom grDevices colorRampPalette
@@ -193,7 +193,17 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #'     map(~show_palette(.x)) %>%
 #'     wrap_plots()
 #'     }
-show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuous = 2, title_size = 18){
+show_palette <- function(
+  pal,
+  title = NULL,
+  n = NULL,
+  n_sat = 1,
+  labels = FALSE,
+  n_continuous = 2,
+  title_size = 18,
+  show_continuous = FALSE,
+  show_divergent = FALSE
+  ){
 
   if(is.list(pal) & is.null(title)) {
     title <- names(pal)
@@ -202,23 +212,33 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
 
   if(is.null(n)) n <- c(length(pal), 200)
 
-  x <- seq(0, 1, length = n[1]+1)
-  y <- c(0.05, 1)
-  type <- paste0("x", 1:(n[1]+1))
-  df1 <- data.frame(xmin = x[-(n[1]+1)], xmax = x[-1]+0.001, ymin = y[1], ymax = y[2], type = type[-1])
+  df1 <- map2_dfc(pal, 1:length(pal), ~{
+    colour <- colorRampPalette(c("white", .x))(n_sat+1)[-1]
+    tibble(colour = colour) %>%
+      set_names(paste0("colour", .y))
+    }) %>%
+    mutate(saturation = 1:n_sat) %>%
+    pivot_longer(cols = -saturation, names_to = "colour", values_to = "fill") %>%
+    mutate(
+      xmin = (as.numeric(str_extract(colour, "[:digit:]"))-1)/n[1],
+      xmax = as.numeric(str_extract(colour, "[:digit:]"))/n[1] + 0.001,
+      ymin = (saturation-1)/n_sat,
+      ymax = ymin + 1/n_sat
+    )
 
   x <- seq(0, 1, length = n[2]+1)
-  y <- c(-1, -0.05)
+  y <- c(-1/n_sat, 0)
   type <- paste0("x", 1:(n[2]+1))
-  df2 <- data.frame(xmin = x[-(n[2]+1)], xmax = x[-1]+0.001, ymin = y[1], ymax = y[2], type = type[-1])
+  df2 <- tibble(xmin = x[-(n[2]+1)], xmax = x[-1]+0.001, ymin = y[1], ymax = y[2], type = type[-1])
 
   x_text <- seq(0, 1, length = n[1]+1)
   d <- mean(df1$xmin[1:2])
   g <- ggplot() +
     theme_void() +
-    annotate("rect", xmin = df1$xmin, xmax = df1$xmax, ymin = df1$ymin, ymax = df1$ymax, fill = colorRampPalette(pal)(n[1])) +
-    annotate("rect", xmin = df2$xmin, xmax = df2$xmax, ymin = df2$ymin, ymax = df2$ymax, fill = colorRampPalette(pal[seq(1, n[1], length = n_continuous)])(n[2]))
+    annotate("rect", xmin = df1$xmin, xmax = df1$xmax, ymin = df1$ymin, ymax = df1$ymax, fill = df1$fill)
 
+  if(show_continuous) g <- g + annotate("rect", xmin = df2$xmin, xmax = df2$xmax, ymin = df2$ymin, ymax = df2$ymax, fill = colorRampPalette(pal[seq(1, n[1], length = n_continuous)])(n[2]))
+  if(show_divergent) g <- g + annotate("rect", xmin = df2$xmin, xmax = df2$xmax, ymin = df2$ymin-1/n_sat*show_continuous, ymax = df2$ymax-1/n_sat*show_continuous, fill = colorRampPalette(c(pal[1], "white", pal[length(pal)]))(n[2]))
   if(labels) g <- g + annotate("text", x = (df1$xmin + df1$xmax)/2, y = (df1$ymin + df1$ymax)/2, label = pal)
   if(!is.null(title)) {
     g <- g +
@@ -228,7 +248,7 @@ show_palette <- function(pal, title = NULL, n = NULL, labels = FALSE, n_continuo
       )
   }
 
-  return(g)
+  g
 }
 
 
@@ -330,7 +350,7 @@ sort_palette <- function(pal, rgb_hsv = "choose"){
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples \dontrun{}
 evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation = 0.01) {
   n <- length(selected_parents)
   evolved <- map(1:n_children, ~{
@@ -372,7 +392,7 @@ evolve <- function(selected_parents, n_children, mutation_rate = 0.05, variation
 #' @importFrom shinyalert useShinyalert shinyalert
 #' @importFrom shinyWidgets pickerInput
 #'
-#' @examples
+#' @examples \dontrun{}
 launch_evo_palette <- function() {
   shiny::runApp(system.file('evoPaletteDash', package = 'evoPalette'))
 }
@@ -392,7 +412,7 @@ launch_evo_palette <- function() {
 #' @return
 #' @export
 #'
-#' @examples
+#' @examples \dontrun{}
 palette_box <-  function(clear = FALSE) {
   if(clear) {
     gallery$palette_box <- NULL

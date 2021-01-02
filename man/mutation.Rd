@@ -13,6 +13,9 @@ mutation(parents, mutation_rate = 0.05, variation_parameter = 0.01)
 
 \item{variation_parameter}{Numeric value between 0-1. Random variation applied to every gene.}
 }
+\value{
+
+}
 \description{
 Applies the mutation step in the evolutionary algorithm
 }

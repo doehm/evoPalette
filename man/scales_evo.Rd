@@ -6,20 +6,44 @@
 \alias{scale_colour_evo}
 \title{evoPalette palette function}
 \usage{
-evo_pal(name, scale_type = "d", reverse = FALSE, ...)
+evo_pal(
+  name,
+  scale_type = "d",
+  saturation = 1,
+  reverse = FALSE,
+  divergent = FALSE,
+  ...
+)
 
-scale_fill_evo(name = NULL, scale_type = "d", reverse = FALSE, ...)
+scale_fill_evo(
+  name = NULL,
+  scale_type = "d",
+  saturation = 1,
+  reverse = FALSE,
+  ...
+)
 
-scale_colour_evo(name, scale_type = "d", reverse = FALSE, ...)
+scale_colour_evo(name, scale_type = "d", saturation = 1, reverse = FALSE, ...)
 }
 \arguments{
 \item{name}{Name of palette in the palette box}
 
 \item{scale_type}{Discrete or continuous. Input \code{d} / \code{c}.}
 
+\item{saturation}{Saturation level 0-1.}
+
 \item{reverse}{Logical. Reverse the palette?}
 
+\item{divergent}{Use a divergent colour scale?}
+
 \item{...}{Dots}
+}
+\value{
+
+
+
+
+
 }
 \description{
 Generates a colour palette function for a discrete or continuous scale
@@ -27,4 +51,9 @@ Generates a colour palette function for a discrete or continuous scale
 \details{
 The evoPalette app needs to be run and at least one palette saved to use the scale functions. The scales
 refer to the palette by name.
+}
+\examples{
+\dontrun{}
+\dontrun{}
+\dontrun{}
 }

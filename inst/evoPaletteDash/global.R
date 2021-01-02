@@ -18,10 +18,10 @@ gallery$history <- list()
 gallery$parent_history <- list()
 gallery$n_parents <- 0
 
-plot_palette <- function(pal, aesthetic = "fill") {
+plot_palette <- function(pal, aesthetic = "fill", saturation = 1) {
   if(is.character(pal)) pal <- list(pal)
   if(aesthetic == "fill"){
-    g <- ggplot(ggplot2::mpg, aes(x = ggplot2::mpg$displ, fill = class)) + geom_histogram(bins = 30)
+    g <- ggplot(ggplot2::mpg, aes(x = ggplot2::mpg$displ, fill = class)) + geom_histogram(bins = 30, alpha = saturation)
     imap(pal, ~{
       if(length(.x) < 7) {
         cols <- colorRampPalette(.x)(7)
