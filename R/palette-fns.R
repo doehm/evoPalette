@@ -185,6 +185,7 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #' @import tidyr
 #' @import ggplot2
 #' @import snakecase
+#' @import stringr
 #' @importFrom grDevices colorRampPalette
 #'
 #' @examples
@@ -214,6 +215,7 @@ show_palette <- function(
 
   df1 <- map2_dfc(pal, 1:length(pal), ~{
     colour <- colorRampPalette(c("white", .x))(n_sat+1)[-1]
+    # change the saturation in here
     tibble(colour = colour) %>%
       set_names(paste0("colour", .y))
     }) %>%
@@ -273,7 +275,6 @@ show_palette <- function(
 #' }
 #'
 #' @return
-#' @export
 #'
 #' @importFrom grDevices col2rgb rgb2hsv
 #' @importFrom stats dist sd
@@ -288,9 +289,9 @@ show_palette <- function(
 #'     imap(~show_palette(.x, .y)) %>%
 #'     wrap_plots()
 #' }
-sort_palette <- function(pal, rgb_hsv = "choose"){
+dep_sort_palette <- function(pal, rgb_hsv = "choose"){
 
-  if(!rgb_hsv %in% c("rgb", "hsv", "both", "normal", "none", "choose")) stop("valid methods for rgb_hsv: rgb, hsv, both, normal, none.")
+  if(!rgb_hsv %in% c("rgb", "hsv", "h", "both", "normal", "none", "choose")) stop("valid methods for rgb_hsv: rgb, hsv, h, both, normal, none.")
 
   .rgb <- t(col2rgb(pal))/255
 
@@ -306,10 +307,13 @@ sort_palette <- function(pal, rgb_hsv = "choose"){
     return(sort(pal))
   }
 
+  browser()
+
   col_vector <- switch(rgb_hsv,
     rgb = .rgb,
     hsv = t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])),
-    both = cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])), l = sqrt(0.241*.rgb[,1] + 0.691*.rgb[,2] + 0.068*.rgb[,3]))
+    both = cbind(.rgb, t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3])), l = sqrt(0.241*.rgb[,1] + 0.691*.rgb[,2] + 0.068*.rgb[,3])),
+    h = t(rgb2hsv(.rgb[,1], .rgb[,2], .rgb[,3]))[,1]
   )
 
   d <- as.matrix(dist(col_vector))
@@ -323,6 +327,80 @@ sort_palette <- function(pal, rgb_hsv = "choose"){
     order[k+1] <- which.min(d[order[k],])
     d[,order[k]] <- 99
   }
+  pal[order]
+}
+
+
+
+
+#' Palette colour order
+#'
+#' Sorts colour palette by hue.
+#'
+#' @param pal Palette. Character vector of hex codes.
+#' @param rgb_hsv Sort by either rgb, hsv, both, none or normal. See details.
+#'
+#' @details Sorting colours is near impossible to get it right everytime. This allows sorting by a few methods. Default is \code{both}.
+#' \itemize{
+#' \item{\code{rgb}}: Sorts by RGB by first finding the lightest, then it's nearest neighbour and so on.
+#' \item{\code{hsv}}: Sorts by HSV by first finding the most saturated, then it's nearest neighbour and so on.
+#' \item{\code{both}}: Both RGB and HSV.
+#' \item{\code{normal}}: Simple character sort on hex codes.
+#' \item{\code{none}}: Returns the same order. Can be convenient.
+#' }
+#'
+#' @return
+#' @export
+#'
+#' @importFrom grDevices col2rgb rgb2hsv
+#' @importFrom stats dist sd
+#'
+#' @examples
+#' \dontrun{
+#' pal <- c("#564862", "#EEFBFD", "#594543", "#8E4B3E", "#BF6856")
+#' list(
+#'     unsorted = pal,
+#'     sorted = sort_palette(pal)
+#'     ) %>%
+#'     imap(~show_palette(.x, .y)) %>%
+#'     wrap_plots()
+#' }
+sort_palette <- function(pal, method = "choose"){
+
+  .rgb <- col2rgb(pal)/255
+  x_array <- t(rbind(
+    .rgb,
+    rgb2hsv(.rgb),
+    l = sqrt(0.241*.rgb[,1] + 0.691*.rgb[,2] + 0.068*.rgb[,3]))
+    )
+  colnames(x_array) <- c("r", "g", "b", "h", "s", "v", "l")
+  x_metrics <- apply(x_array, 2, sd)
+  x_rgb <- sum(x_metrics[1:3])
+  x_hsv <- sum(x_metrics[4:6])
+  if(method == "choose") {
+    method <- ifelse(x_rgb > x_hsv, "rgb", "hsv")
+  }else if(method == "none") {
+    return(pal)
+  }else if(method == "normal") {
+    return(sort(pal))
+  }
+
+  if(!method %in% c("choose", "none", "normal")) method <- str_split(method, "")[[1]]
+
+  col_vector <- x_array[, method, drop = FALSE]
+
+  d <- as.matrix(dist(col_vector))
+  id <- sort(apply(col_vector, 1, min), decreasing = TRUE, index.return = TRUE)$ix
+  begin <- id[1]
+  d[d == 0] <- 99
+  nm <- as.numeric(colnames(d))
+  order <- rep(NA, length(pal))
+  order[1] <- begin
+  for(k in 1:(length(pal)-1)) {
+    order[k+1] <- which.min(d[order[k],])
+    d[,order[k]] <- 99
+  }
+
   pal[order]
 }
 

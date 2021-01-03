@@ -9,32 +9,45 @@
 evo_pal(
   name,
   scale_type = "d",
-  saturation = 1,
-  reverse = FALSE,
   divergent = FALSE,
+  sequential = FALSE,
+  lum = 1,
+  reverse = FALSE,
   ...
 )
 
 scale_fill_evo(
   name = NULL,
   scale_type = "d",
-  saturation = 1,
+  lum = 1,
   reverse = FALSE,
+  divergent = FALSE,
+  sequential = FALSE,
   ...
 )
 
-scale_colour_evo(name, scale_type = "d", saturation = 1, reverse = FALSE, ...)
+scale_colour_evo(
+  name,
+  scale_type = "d",
+  lum = 1,
+  reverse = FALSE,
+  divergent = FALSE,
+  sequential = FALSE,
+  ...
+)
 }
 \arguments{
 \item{name}{Name of palette in the palette box}
 
 \item{scale_type}{Discrete or continuous. Input \code{d} / \code{c}.}
 
-\item{saturation}{Saturation level 0-1.}
+\item{divergent}{Use divergent scale? Use a two element vector to customise the scale e.g. \code{c(2, 5)}}
+
+\item{sequential}{Use divergent scale? Use an integer to customise the scale}
+
+\item{lum}{lum level 0-1.}
 
 \item{reverse}{Logical. Reverse the palette?}
-
-\item{divergent}{Use a divergent colour scale?}
 
 \item{...}{Dots}
 }
