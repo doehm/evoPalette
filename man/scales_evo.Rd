@@ -43,9 +43,9 @@ scale_colour_evo(
 
 \item{divergent}{Use divergent scale? Use a two element vector to customise the scale e.g. \code{c(2, 5)}}
 
-\item{sequential}{Use divergent scale? Use an integer to customise the scale}
+\item{sequential}{Use sequential scale? Use an integer to customise the scale e.g. \code{2}}
 
-\item{lum}{lum level 0-1.}
+\item{lum}{Luminance value level (0-1) to dial down the intensity of the generated palette.}
 
 \item{reverse}{Logical. Reverse the palette?}
 
