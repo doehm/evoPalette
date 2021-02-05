@@ -187,6 +187,7 @@ mutation <- function(parents, mutation_rate = 0.05, variation_parameter = 0.01) 
 #' @import snakecase
 #' @import stringr
 #' @importFrom grDevices colorRampPalette
+#' @importFrom purrr map2_dfc
 #'
 #' @examples
 #' \dontrun{

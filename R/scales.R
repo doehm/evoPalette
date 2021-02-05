@@ -6,10 +6,10 @@
 #'
 #' @param name Name of palette in the palette box
 #' @param scale_type Discrete or continuous. Input \code{d} / \code{c}.
-#' @param lum lum level 0-1.
+#' @param lum Luminance value level (0-1) to dial down the intensity of the generated palette.
 #' @param reverse Logical. Reverse the palette?
 #' @param divergent Use divergent scale? Use a two element vector to customise the scale e.g. \code{c(2, 5)}
-#' @param sequential Use divergent scale? Use an integer to customise the scale
+#' @param sequential Use sequential scale? Use an integer to customise the scale e.g. \code{2}
 #' @param ... Dots
 #'
 #' @rdname scales_evo
@@ -26,12 +26,20 @@
 #'
 #' @examples \dontrun{}
 evo_pal <- function(name, scale_type = "d", divergent = FALSE, sequential = FALSE, lum = 1, reverse = FALSE, ...) {
-  if(length(palette_box()) == 0) stop("palette box is empty. Run 'launch_evo_palette()' to generate a palette")
-  if(is.null(name)) {
-    name <- names(palette_box())[1]
-    message(green(glue("Note: No name provided. Selecting '{to_title_case(name)}' from palette_box")))
+  if(!exists("gallery")) {
+    if(!name %in% palette_data$name) {
+      stop("palette box is empty. Run 'launch_evo_palette()' to generate a palette")
+    } else if(name %in% palette_data$name){
+      cols <- palette_data$palette[palette_data$name == name][[1]]
+    }
+  } else {
+    if(is.null(name) & length(palette_box()) > 0) {
+      name <- names(palette_box())[1]
+      message(green(glue("Note: No name provided. Selecting '{to_title_case(name)}' from palette_box")))
+    } else {
+      cols <- palette_box()[[name]]
+    }
   }
-  cols <- palette_box()[[name]]
 
   a <- max(100*round(lum, 2), 1)
   for(k in 1:length(cols)) {
@@ -67,9 +75,9 @@ evo_pal <- function(name, scale_type = "d", divergent = FALSE, sequential = FALS
 #' @param name Name of palette in the palette box
 #' @param scale_type Discrete or continuous. Input \code{d} / \code{c}.
 #' @param reverse Logical. Reverse the palette?
-#' @param lum lum level 0-1.
+#' @param lum Luminance value level (0-1) to dial down the intensity of the generated palette.
 #' @param divergent Use divergent scale? Use a two element vector to customise the scale e.g. \code{c(2, 5)}
-#' @param sequential Use divergent scale? Use an integer to customise the scale
+#' @param sequential Use sequential scale? Use an integer to customise the scale e.g. \code{2}
 #' @param ... Dots
 #'
 #' @rdname scales_evo
@@ -103,9 +111,9 @@ scale_fill_evo <- function(
 #' @param name Name of palette in the palette box
 #' @param scale_type Discrete or continuous. Input \code{d} / \code{c}.
 #' @param reverse Logical. Reverse the palette?
-#' @param lum lum level 0-1.
+#' @param lum Luminance value level (0-1) to dial down the intensity of the generated palette.
 #' @param divergent Use divergent scale? Use a two element vector to customise the scale e.g. \code{c(2, 5)}
-#' @param sequential Use divergent scale? Use an integer to customise the scale
+#' @param sequential Use sequential scale? Use an integer to customise the scale e.g. \code{2}
 #' @param ... Dots
 #'
 #' @rdname scales_evo

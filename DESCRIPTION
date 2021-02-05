@@ -11,6 +11,7 @@ Description: Taking the next step in choosing the right colour palette. Using co
 Depends: 
   R (>= 3.5.0),
 Imports:
+  crayon,
   dplyr,
   ggplot2,
   glue,
@@ -25,7 +26,8 @@ Imports:
   shinyWidgets,
   snakecase,
   stats,
-  stringr
+  stringr,
+  tidyr
 Suggests: 
   knitr, 
   rmarkdown
