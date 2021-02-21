@@ -372,7 +372,7 @@ sort_palette <- function(pal, method = "choose"){
   x_array <- t(rbind(
     .rgb,
     rgb2hsv(.rgb),
-    l = sqrt(0.241*.rgb[,1] + 0.691*.rgb[,2] + 0.068*.rgb[,3]))
+    l = sqrt(0.241*.rgb[1,] + 0.691*.rgb[2,] + 0.068*.rgb[3,]))
     )
   colnames(x_array) <- c("r", "g", "b", "h", "s", "v", "l")
   x_metrics <- apply(x_array, 2, sd)
@@ -525,4 +525,46 @@ generate_palette_name <- function(n) {
   food <- read_rds(system.file('extdata/food-words.rds', package = 'evoPalette'))
   food <- sample(food$food_word, n)
   to_title_case(paste(adjective, food))
+}
+
+
+#' Extracts palette from image
+#'
+#' The image is read in using \code{magick}, converted to RGB and clustered using kmeans. The user
+#' must specify the number of clusters. The cluster centroids become the palette values.
+#'
+#' @param image_loc Location of image on disk
+#' @param n_cols Number of colours to extract
+#'
+#' @importFrom purrr map_chr
+#'
+#' @return Returns a character vector of hex codes
+#' @export
+#'
+#' @examples \dontrun{}
+extract_palette <- function(image_loc, n_cols) {
+
+  img <- magick::image_read(image_loc)
+
+  x <- magick::image_data(img, "rgb") %>%
+    as.array() %>%
+    as.integer()
+
+  rgb_mat <- matrix(0, nrow = prod(dim(x)[1:2]), ncol = 5)
+  k <- 0
+  for(i in 1:dim(x)[1]) {
+    for(j in 1:dim(x)[2]) {
+      k <- k + 1
+      rgb_mat[k, ] <- c(i, j, x[i, j, ])
+    }
+  }
+
+  km <- kmeans(rgb_mat[,3:5], n_cols)
+  km <- round(km$centers)
+
+  map_chr(1:n_cols, ~{
+    rgb(km[.x,1], km[.x,2], km[.x,3], maxColorValue = 255)
+    }) %>%
+    sort_palette()
+
 }
